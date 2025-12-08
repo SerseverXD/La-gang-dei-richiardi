@@ -174,6 +174,7 @@
             color: inherit; 
             cursor: pointer;
             min-width: 0;
+            position: relative; 
         }
 
         .ad-content {
@@ -184,6 +185,50 @@
             justify-content: center; 
             word-wrap: break-word; 
         }
+        
+        /* Stile base per le immagini degli annunci */
+        .ad-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none; 
+        }
+
+        /* Nuovo stile per l'immagine del banner sticky */
+        #stickyAdImage {
+            position: relative; /* Non assoluto per non coprire i controlli */
+            height: 50px; /* Altezza del banner (circa 60px) */
+            width: auto;
+            object-fit: contain;
+            display: none;
+            margin-right: 5px; /* Spazio tra immagine e controlli */
+        }
+        
+        /* Nasconde il contenuto testo quando l'immagine è attiva (Sticky) */
+        #stickyAdBanner.image-ad #stickyAdContent {
+            display: none;
+        }
+        
+        /* Mostra l'immagine quando è attiva (Sticky) */
+        #stickyAdBanner.image-ad #stickyAdImage {
+            display: block;
+            margin: 0; /* Rimuove margini per allineamento */
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            position: absolute; /* Deve essere assoluto per occupare tutto lo spazio */
+        }
+        
+        /* Aumenta lo spazio dei link wrapper per sticky quando è un'immagine */
+        #stickyAdBanner.image-ad .ad-link-wrapper {
+            justify-content: flex-start;
+            align-items: center;
+        }
+        /* FINE NUOVI STILI STICKY IMAGE */
+
 
         .ad-title {
             font-weight: 600;
@@ -206,8 +251,7 @@
             display: flex;
             align-items: flex-start; 
             justify-content: flex-end; 
-            /* MODIFICATO: Aumentato il gap tra i pulsanti a 2px */
-            gap: 2px; 
+            gap: 1px; 
             flex-shrink: 0;
             padding: 0; 
         }
@@ -288,13 +332,14 @@
         #stickyAdBanner .ad-title { font-size: 0.9rem; }
         #stickyAdBanner .ad-description { font-size: 0.7rem; }
 
+        /* Annunci 250x250 */
         #inlineAdBanner, #middleAdBanner {
             display: flex;
             width: 250px;
             height: 250px; 
             margin: 20px auto; 
             flex-direction: column; 
-            padding: 5px;
+            padding: 5px; 
             border-radius: 0; 
         }
         #inlineAdBanner .ad-link-wrapper, #middleAdBanner .ad-link-wrapper {
@@ -302,11 +347,24 @@
             justify-content: center;
             text-align: center;
             padding-right: 0;
+            flex-grow: 1;
         }
         #inlineAdBanner .ad-controls, #middleAdBanner .ad-controls {
             top: 0; right: 0; height: auto; padding: 0; 
         }
-        #inlineAdBanner .ad-content, #middleAdBanner .ad-content { padding: 10px; flex-grow: 0; }
+        #inlineAdBanner .ad-content, #middleAdBanner .ad-content { padding: 10px; flex-grow: 1; }
+        
+        /* STILI CHIAVE: Rimuove padding per l'immagine a schermo intero 250x250 */
+        #inlineAdBanner.image-ad, #middleAdBanner.image-ad {
+             padding: 0; 
+        }
+        #inlineAdBanner.image-ad .ad-link-wrapper, #middleAdBanner.image-ad .ad-link-wrapper {
+            padding: 0; 
+        }
+        #inlineAdBanner.image-ad .ad-content, #middleAdBanner.image-ad .ad-content {
+            display: none; 
+        }
+        
         #inlineAdBanner .ad-title, #middleAdBanner .ad-title { font-size: 1rem; }
         #inlineAdBanner .ad-description, #middleAdBanner .ad-description { font-size: 0.8rem; margin-top: 5px; }
         #inlineAdBanner .ad-info-text, #middleAdBanner .ad-info-text { font-size: 0.8rem; padding-left: 0; margin-top: 30px; }
@@ -480,6 +538,7 @@
         <div id="middleAdBanner" class="ad-banner">
             <button id="middleAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
             <a id="middleAdLink" class="ad-link-wrapper" href="#" target="_blank">
+                <img id="middleAdImage" class="ad-image" src="" alt="Annuncio Immagine">
                 <div id="middleAdContent" class="ad-content"> 
                     <div id="middleAdTitle" class="ad-title">Caricamento Annuncio...</div>
                     <div id="middleAdDescription" class="ad-description">Caricamento descrizione...</div>
@@ -489,7 +548,7 @@
                 <div id="middleAdInfoText" class="ad-info-text">ADS By Dark</div>
             </div>
             <div id="middleAdControls" class="ad-controls">
-                <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); alert('AdChoices: Middle Ad.');">
+                <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('middle');">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
                 </button>
                 <button id="middleAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('middle');">
@@ -508,6 +567,7 @@
         <div id="inlineAdBanner" class="ad-banner">
             <button id="inlineAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
             <a id="inlineAdLink" class="ad-link-wrapper" href="#" target="_blank">
+                <img id="inlineAdImage" class="ad-image" src="" alt="Annuncio Immagine">
                 <div id="inlineAdContent" class="ad-content"> 
                     <div id="inlineAdTitle" class="ad-title">Caricamento Annuncio...</div>
                     <div id="inlineAdDescription" class="ad-description">Caricamento descrizione...</div>
@@ -517,7 +577,7 @@
                 <div id="inlineAdInfoText" class="ad-info-text">ADS By Dark</div>
             </div>
             <div id="inlineAdControls" class="ad-controls">
-                <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); alert('AdChoices: Inline Ad.');">
+                 <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('inline');">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
                 </button>
                 <button id="inlineAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('inline');">
@@ -532,6 +592,7 @@
 <div id="stickyAdBanner" class="ad-banner">
     <button id="stickyAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
     <a id="stickyAdLink" class="ad-link-wrapper" href="#" target="_blank">
+        <img id="stickyAdImage" src="" alt="Annuncio Banner" class="ad-image"> 
         <div id="stickyAdContent" class="ad-content"> 
             <div id="stickyAdTitle" class="ad-title">Caricamento Annuncio...</div>
             <div id="stickyAdDescription" class="ad-description">Caricamento descrizione...</div>
@@ -541,7 +602,7 @@
         <div id="stickyAdInfoText" class="ad-info-text">ADS By Dark</div>
     </div>
     <div id="stickyAdControls" class="ad-controls">
-        <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); alert('AdChoices: Sticky Ad.');">
+         <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('sticky');">
             <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
         </button>
         <button id="stickyAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('sticky');">
@@ -590,7 +651,9 @@
     // --- 3. Variabili di Stato Ads ---
     let app, db, auth;
     let allAds = []; 
+    let currentAd = {}; // Memorizza l'annuncio attualmente visualizzato per non ricaricarlo
     let adsUnsubscribe = null; 
+    let adRefreshTimers = {}; // Per gestire i timer di refresh casuale
 
     // --- 4. Elementi DOM Ads ---
     const elements = {
@@ -602,6 +665,8 @@
             controls: document.getElementById('stickyAdControls'),
             back: document.getElementById('stickyAdBackArrow'),
             infoCont: document.getElementById('stickyAdInfoTextContainer'),
+            image: document.getElementById('stickyAdImage'), // RIFERIMENTO AGGIUNTO
+            contentDiv: document.getElementById('stickyAdContent'),
         },
         inline: {
             banner: document.getElementById('inlineAdBanner'),
@@ -611,6 +676,8 @@
             controls: document.getElementById('inlineAdControls'),
             back: document.getElementById('inlineAdBackArrow'),
             infoCont: document.getElementById('inlineAdInfoTextContainer'),
+            image: document.getElementById('inlineAdImage'), 
+            contentDiv: document.getElementById('inlineAdContent'), 
         },
         middle: { 
             banner: document.getElementById('middleAdBanner'),
@@ -620,32 +687,141 @@
             controls: document.getElementById('middleAdControls'),
             back: document.getElementById('middleAdBackArrow'),
             infoCont: document.getElementById('middleAdInfoTextContainer'),
+            image: document.getElementById('middleAdImage'), 
+            contentDiv: document.getElementById('middleAdContent'), 
         }
     };
 
     // --- 5. Logica Annunci ---
-    function getRandomAd() {
+    
+    /**
+     * Seleziona un annuncio casuale differente dall'annuncio corrente visualizzato in quel tipo di banner.
+     * @param {string} type - 'sticky', 'inline' o 'middle'
+     * @returns {object|null} L'annuncio selezionato.
+     */
+    function getRandomAd(type) {
         if (allAds.length === 0) return null;
-        return allAds[Math.floor(Math.random() * allAds.length)];
+        
+        const currentAdId = currentAd[type]?.id;
+        
+        let availableAds = allAds.filter(ad => ad.id !== currentAdId);
+        
+        if (availableAds.length === 0) {
+            // Se tutti gli annunci sono uguali a quello corrente, riusa quello corrente o ricarica da allAds
+            availableAds = allAds;
+        }
+
+        return availableAds[Math.floor(Math.random() * availableAds.length)];
+    }
+    
+    /**
+     * Imposta o reimposta un timer per il refresh casuale.
+     * @param {string} type - 'sticky', 'inline' o 'middle'
+     */
+    function setupRandomRefreshTimer(type) {
+        // Pulisce il timer esistente
+        if (adRefreshTimers[type]) {
+            clearTimeout(adRefreshTimers[type]);
+        }
+        
+        // Intervallo casuale tra 20 secondi (20000ms) e 60 secondi (60000ms)
+        const minDuration = 20000;
+        const maxDuration = 60000;
+        const randomTime = Math.floor(Math.random() * (maxDuration - minDuration + 1)) + minDuration;
+        
+        // DEBUG: console.log(`[${type}] Prossimo refresh tra ${randomTime / 1000}s`);
+
+        adRefreshTimers[type] = setTimeout(() => {
+            displayBannerAd(type, true); // Forziamo il refresh
+            setupRandomRefreshTimer(type); // Reimposta il timer dopo il refresh
+        }, randomTime);
     }
 
-    function displayBannerAd(type) {
-        const ad = getRandomAd();
-        const el = elements[type];
-        if (ad) {
-            el.title.textContent = ad.title;
-            el.desc.textContent = ad.description;
-            el.link.href = ad.link; 
-            el.link.classList.remove('hidden-content');
-            el.infoCont.style.display = 'none';
-            el.back.style.display = 'none';
-            el.controls.style.display = 'flex';
-            el.banner.style.display = 'flex'; 
+    /**
+     * Visualizza un annuncio.
+     * @param {string} type - 'sticky', 'inline' o 'middle'
+     * @param {boolean} [forceNewAd=false] - Forza la selezione di un nuovo annuncio casuale.
+     */
+    function displayBannerAd(type, forceNewAd = false) {
+        let ad;
+        if (forceNewAd) {
+            ad = getRandomAd(type); // Prende un nuovo annuncio casuale
         } else {
-            el.banner.style.display = 'none';
+            ad = currentAd[type] || getRandomAd(type); // Usa quello corrente o ne prende uno nuovo se non esiste
+        }
+        
+        const el = elements[type];
+
+        if (!el || !ad) {
+            if (el) el.banner.style.display = 'none';
+            return;
+        }
+        
+        // Memorizza l'annuncio che stiamo visualizzando
+        currentAd[type] = ad;
+        
+        // Inizializza/reimposta il timer di refresh casuale se stiamo visualizzando l'annuncio
+        if (el.banner.style.display !== 'flex') {
+             setupRandomRefreshTimer(type);
+        }
+
+        // Impostazioni comuni e reset
+        el.link.href = ad.link; 
+        el.link.classList.remove('hidden-content');
+        el.infoCont.style.display = 'none';
+        el.back.style.display = 'none';
+        el.controls.style.display = 'flex';
+        el.banner.style.display = 'flex'; 
+        el.banner.classList.remove('image-ad'); 
+        
+        // Reset Immagine/Testo (per tutti i tipi, ora incluso sticky)
+        if (el.image && el.contentDiv) {
+             el.image.style.display = 'none';
+             el.contentDiv.style.display = 'flex';
+             el.image.src = ''; 
+        }
+        
+        // --- Logica specifica per tipo di banner ---
+
+        if (type === 'sticky') {
+            // Banner Sticky (Immagine Banner o Testo)
+            if (ad.type === 'image' && ad.bannerImageUrl) {
+                // Caso 1: Annuncio Immagine Banner (usa bannerImageUrl)
+                el.image.src = ad.bannerImageUrl;
+                el.image.style.display = 'block'; 
+                el.contentDiv.style.display = 'none'; 
+                el.banner.classList.add('image-ad'); 
+            } else {
+                // Caso 2: Annuncio Testo (o immagine fallita/mancante)
+                el.title.textContent = ad.title || 'Annuncio';
+                el.desc.textContent = ad.description || ad.link;
+                el.contentDiv.style.display = 'flex';
+                el.banner.classList.remove('image-ad'); 
+            }
+            
+        } else { 
+            // Banner 250x250 (inline e middle)
+            if (ad.type === 'image' && ad.imageUrl) {
+                // Caso 1: Annuncio Immagine (occupa tutto lo spazio)
+                el.image.src = ad.imageUrl;
+                el.image.style.display = 'block'; 
+                el.contentDiv.style.display = 'none'; 
+                el.banner.classList.add('image-ad'); 
+            } else {
+                // Caso 2: Annuncio Testo (o immagine fallita/mancante)
+                el.title.textContent = ad.title || 'Annuncio Testo';
+                el.desc.textContent = ad.description || ad.link;
+                el.contentDiv.style.display = 'flex';
+                el.banner.classList.remove('image-ad'); 
+            }
         }
     }
 
+    /**
+     * Mostra o nasconde la schermata delle informazioni dell'annuncio.
+     * @param {string} type - 'sticky', 'inline' o 'middle'
+     * @param {boolean} [showInfo=true] - Se mostrare (true) o nascondere (false) la schermata info.
+     */
     window.toggleAdInfoView = (type, showInfo = true) => {
         const el = elements[type];
         if (showInfo) {
@@ -653,15 +829,23 @@
             el.controls.style.display = 'none';
             el.infoCont.style.display = 'flex';
             el.back.style.display = 'block'; 
+            
+            // Pausa il timer quando si apre la schermata info
+            if (adRefreshTimers[type]) {
+                clearTimeout(adRefreshTimers[type]);
+            }
         } else {
             el.link.classList.remove('hidden-content');
             el.controls.style.display = 'flex';
             el.infoCont.style.display = 'none';
             el.back.style.display = 'none';
-            displayBannerAd(type); 
+            
+            // Riattiva il timer quando si chiude la schermata info
+            setupRandomRefreshTimer(type);
         }
     };
     
+    // Assicurati che gli eventi back funzionino
     elements.sticky.back.onclick = () => { window.toggleAdInfoView('sticky', false); };
     elements.inline.back.onclick = () => { window.toggleAdInfoView('inline', false); };
     elements.middle.back.onclick = () => { window.toggleAdInfoView('middle', false); }; 
@@ -673,16 +857,23 @@
             allAds = [];
             snapshot.forEach(doc => {
                 const data = doc.data();
-                if (data.title && data.link) allAds.push({ id: doc.id, ...data });
+                
+                // Un annuncio è valido se ha un URL immagine (blocco o banner) O ha titolo/descrizione
+                if (data.imageUrl || data.bannerImageUrl || data.title || data.description) {
+                     allAds.push({ id: doc.id, ...data });
+                }
             });
-            displayBannerAd('sticky');
-            displayBannerAd('inline');
-            displayBannerAd('middle'); 
+            
+            // Inizializza o rinfresca gli annunci all'avvio/cambio dati
+            displayBannerAd('sticky', true);
+            displayBannerAd('inline', true);
+            displayBannerAd('middle', true); 
         }, (error) => {
              console.error("Errore ads:", error);
-             elements.sticky.banner.style.display = 'none';
-             elements.inline.banner.style.display = 'none';
-             elements.middle.banner.style.display = 'none'; 
+             // Nascondi tutti i banner in caso di errore
+             Object.values(elements).forEach(el => {
+                if(el.banner) el.banner.style.display = 'none';
+             });
         });
     }
 
@@ -700,7 +891,7 @@
     }
     initFirebase();
 
-    // --- 6. LOGICA CHAT ---
+    // --- 6. LOGICA CHAT (MANTENUTA INVARIATA) ---
     const aiFab = document.getElementById('ai-fab');
     const chatModal = document.getElementById('chat-modal');
     const closeChatBtn = document.getElementById('chat-close-btn');
