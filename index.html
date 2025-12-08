@@ -199,12 +199,14 @@
 
         /* Nuovo stile per l'immagine del banner sticky */
         #stickyAdImage {
-            position: relative; /* Non assoluto per non coprire i controlli */
-            height: 50px; /* Altezza del banner (circa 60px) */
-            width: auto;
-            object-fit: contain;
-            display: none;
-            margin-right: 5px; /* Spazio tra immagine e controlli */
+            /* Non più relativo per lo sticky: l'ad-image ha già position: absolute */
+            height: 100%; 
+            width: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none; 
         }
         
         /* Nasconde il contenuto testo quando l'immagine è attiva (Sticky) */
@@ -215,17 +217,29 @@
         /* Mostra l'immagine quando è attiva (Sticky) */
         #stickyAdBanner.image-ad #stickyAdImage {
             display: block;
-            margin: 0; /* Rimuove margini per allineamento */
+            margin: 0; 
             height: 100%;
             width: 100%;
             object-fit: cover;
-            position: absolute; /* Deve essere assoluto per occupare tutto lo spazio */
+            position: absolute; 
         }
         
-        /* Aumenta lo spazio dei link wrapper per sticky quando è un'immagine */
+        /* Modifica cruciale per l'allineamento dei controlli sopra l'immagine */
         #stickyAdBanner.image-ad .ad-link-wrapper {
             justify-content: flex-start;
             align-items: center;
+            /* Rimuove padding per immagine a schermo intero */
+            padding: 0; 
+        }
+        
+        /* Modifica cruciale per lo sticky banner con immagine: rimuove padding */
+        #stickyAdBanner.image-ad {
+            padding: 0;
+        }
+
+        /* Garantisce che i controlli siano sopra l'immagine */
+        #stickyAdBanner.image-ad .ad-controls {
+            z-index: 2; /* Più alto dell'immagine, ma sotto la chat (z-index 200) */
         }
         /* FINE NUOVI STILI STICKY IMAGE */
 
@@ -254,6 +268,7 @@
             gap: 1px; 
             flex-shrink: 0;
             padding: 0; 
+            z-index: 16; 
         }
         
         .ad-control-btn {
@@ -268,7 +283,6 @@
             justify-content: center;
             border-radius: 0; 
             box-shadow: none; 
-            z-index: 16; 
             transition: background-color 0.1s;
         }
 
@@ -324,9 +338,10 @@
             height: 60px; 
             border-radius: 0; 
             border-top: 1px solid var(--ad-border); 
-            padding: 5px 0;
+            padding: 5px 0; /* Padding standard per testo */
             z-index: 20; 
         }
+        /* Sticky Link Wrapper standard */
         #stickyAdBanner .ad-link-wrapper { padding-right: 70px; }
         #stickyAdBanner .ad-content { padding-left: 10px; }
         #stickyAdBanner .ad-title { font-size: 0.9rem; }
@@ -592,7 +607,7 @@
 <div id="stickyAdBanner" class="ad-banner">
     <button id="stickyAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
     <a id="stickyAdLink" class="ad-link-wrapper" href="#" target="_blank">
-        <img id="stickyAdImage" src="" alt="Annuncio Banner" class="ad-image"> 
+        <img id="stickyAdImage" src="" alt="Annuncio Banner"> 
         <div id="stickyAdContent" class="ad-content"> 
             <div id="stickyAdTitle" class="ad-title">Caricamento Annuncio...</div>
             <div id="stickyAdDescription" class="ad-description">Caricamento descrizione...</div>
@@ -665,7 +680,7 @@
             controls: document.getElementById('stickyAdControls'),
             back: document.getElementById('stickyAdBackArrow'),
             infoCont: document.getElementById('stickyAdInfoTextContainer'),
-            image: document.getElementById('stickyAdImage'), // RIFERIMENTO AGGIUNTO
+            image: document.getElementById('stickyAdImage'), 
             contentDiv: document.getElementById('stickyAdContent'),
         },
         inline: {
@@ -772,9 +787,8 @@
         el.back.style.display = 'none';
         el.controls.style.display = 'flex';
         el.banner.style.display = 'flex'; 
-        el.banner.classList.remove('image-ad'); 
         
-        // Reset Immagine/Testo (per tutti i tipi, ora incluso sticky)
+        // Reset Immagine/Testo (per tutti i tipi)
         if (el.image && el.contentDiv) {
              el.image.style.display = 'none';
              el.contentDiv.style.display = 'flex';
@@ -784,6 +798,10 @@
         // --- Logica specifica per tipo di banner ---
 
         if (type === 'sticky') {
+             // Reset del padding del banner sticky
+             el.banner.style.padding = '5px 0'; 
+             el.banner.classList.remove('image-ad'); 
+             
             // Banner Sticky (Immagine Banner o Testo)
             if (ad.type === 'image' && ad.bannerImageUrl) {
                 // Caso 1: Annuncio Immagine Banner (usa bannerImageUrl)
@@ -791,6 +809,9 @@
                 el.image.style.display = 'block'; 
                 el.contentDiv.style.display = 'none'; 
                 el.banner.classList.add('image-ad'); 
+                
+                // Rimuove il padding per l'immagine a schermo intero
+                el.banner.style.padding = '0';
             } else {
                 // Caso 2: Annuncio Testo (o immagine fallita/mancante)
                 el.title.textContent = ad.title || 'Annuncio';
@@ -801,18 +822,23 @@
             
         } else { 
             // Banner 250x250 (inline e middle)
+            el.banner.classList.remove('image-ad'); // Reset
+            el.banner.style.padding = '5px'; // Padding standard
+            
             if (ad.type === 'image' && ad.imageUrl) {
                 // Caso 1: Annuncio Immagine (occupa tutto lo spazio)
                 el.image.src = ad.imageUrl;
                 el.image.style.display = 'block'; 
                 el.contentDiv.style.display = 'none'; 
                 el.banner.classList.add('image-ad'); 
+                
+                // Rimuove il padding per l'immagine a schermo intero
+                el.banner.style.padding = '0';
             } else {
                 // Caso 2: Annuncio Testo (o immagine fallita/mancante)
                 el.title.textContent = ad.title || 'Annuncio Testo';
                 el.desc.textContent = ad.description || ad.link;
                 el.contentDiv.style.display = 'flex';
-                el.banner.classList.remove('image-ad'); 
             }
         }
     }
