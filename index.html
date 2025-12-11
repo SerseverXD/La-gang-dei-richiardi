@@ -197,9 +197,8 @@
             display: none; 
         }
 
-        /* Nuovo stile per l'immagine del banner sticky */
+        /* Stile per l'immagine del banner sticky */
         #stickyAdImage {
-            /* Non più relativo per lo sticky: l'ad-image ha già position: absolute */
             height: 100%; 
             width: 100%;
             object-fit: cover;
@@ -239,11 +238,9 @@
 
         /* Garantisce che i controlli siano sopra l'immagine */
         #stickyAdBanner.image-ad .ad-controls {
-            z-index: 2; /* Più alto dell'immagine, ma sotto la chat (z-index 200) */
+            z-index: 2; 
         }
-        /* FINE NUOVI STILI STICKY IMAGE */
-
-
+        
         .ad-title {
             font-weight: 600;
             color: var(--ad-text-dark); 
@@ -338,7 +335,7 @@
             height: 60px; 
             border-radius: 0; 
             border-top: 1px solid var(--ad-border); 
-            padding: 5px 0; /* Padding standard per testo */
+            padding: 5px 0; 
             z-index: 20; 
         }
         /* Sticky Link Wrapper standard */
@@ -347,7 +344,7 @@
         #stickyAdBanner .ad-title { font-size: 0.9rem; }
         #stickyAdBanner .ad-description { font-size: 0.7rem; }
 
-        /* Annunci 250x250 */
+        /* Annunci 250x250 (Inline e Middle) */
         #inlineAdBanner, #middleAdBanner {
             display: flex;
             width: 250px;
@@ -369,7 +366,7 @@
         }
         #inlineAdBanner .ad-content, #middleAdBanner .ad-content { padding: 10px; flex-grow: 1; }
         
-        /* STILI CHIAVE: Rimuove padding per l'immagine a schermo intero 250x250 */
+        /* Rimuove padding per l'immagine a schermo intero 250x250 */
         #inlineAdBanner.image-ad, #middleAdBanner.image-ad {
              padding: 0; 
         }
@@ -383,6 +380,61 @@
         #inlineAdBanner .ad-title, #middleAdBanner .ad-title { font-size: 1rem; }
         #inlineAdBanner .ad-description, #middleAdBanner .ad-description { font-size: 0.8rem; margin-top: 5px; }
         #inlineAdBanner .ad-info-text, #middleAdBanner .ad-info-text { font-size: 0.8rem; padding-left: 0; margin-top: 30px; }
+        
+        /* --- NUOVI STILI POP-UP (180x150) --- */
+        #popupAdBanner {
+            position: fixed;
+            right: -180px; /* Inizia fuori dallo schermo (dimensione banner) */
+            bottom: 120px; 
+            width: 180px; /* NUOVA DIMENSIONE */
+            height: 150px; /* NUOVA DIMENSIONE */
+            border-radius: 0; /* Rimosso l'arrotondamento */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: none; 
+            z-index: 150; 
+            flex-direction: column; 
+            padding: 5px; 
+            transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out; 
+        }
+
+        /* Regole per il Pop-up quando è un'immagine a schermo intero */
+        #popupAdBanner.image-ad {
+            padding: 0; 
+        }
+        #popupAdBanner.image-ad .ad-link-wrapper {
+            padding: 0; 
+        }
+        #popupAdBanner.image-ad .ad-content {
+            display: none; 
+        }
+
+        /* Stile per forzare la comparsa */
+        #popupAdBanner.show {
+            right: 20px; /* Posizione finale a schermo (20px dal bordo) */
+            opacity: 1;
+        }
+        /* Stile per forzare la scomparsa */
+        #popupAdBanner.hide {
+            right: -180px; /* Ritorna fuori dallo schermo (dimensione banner) */
+            opacity: 0;
+        }
+
+        /* Stili specifici per i contenuti del pop-up */
+        #popupAdBanner .ad-link-wrapper {
+            flex-direction: column; 
+            justify-content: center;
+            text-align: center;
+            padding-right: 0;
+            flex-grow: 1;
+        }
+        #popupAdBanner .ad-controls {
+            top: 0; right: 0; height: auto; padding: 0; 
+        }
+        #popupAdBanner .ad-content { padding: 10px; flex-grow: 1; }
+        #popupAdBanner .ad-title { font-size: 0.8rem; font-weight: 700; }
+        #popupAdBanner .ad-description { font-size: 0.65rem; margin-top: 3px; }
+        #popupAdBanner .ad-info-text { font-size: 0.8rem; padding-left: 0; margin-top: 30px; }
+
 
         /* --- AI CHAT E FLOATING BUTTON --- */
         #ai-fab {
@@ -507,6 +559,70 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
+        
+        /* --- STILI PAGINA NASCOSTA --- */
+        #hidden-ad-removal-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-dark);
+            display: none; /* Inizialmente nascosto */
+            align-items: center;
+            justify-content: center;
+            z-index: 300; 
+            text-align: center;
+        }
+
+        #removal-content {
+            background-color: var(--card-dark);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 350px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        #hidden-ad-removal-page h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        #hidden-ad-removal-page p {
+            color: var(--muted-light);
+            margin-bottom: 30px;
+        }
+
+        #removeAdsButton {
+            background-color: var(--primary);
+            color: var(--text-light);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        #removeAdsButton:hover { background-color: #A31E1E; }
+
+        #backToAppButton {
+            background-color: var(--ios-blue);
+            color: var(--text-light);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #backToAppButton:hover { background-color: #0060C8; }
 
     </style>
 </head>
@@ -604,6 +720,28 @@
     </div>
 </div>
 
+<div id="popupAdBanner" class="ad-banner hide">
+    <button id="popupAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
+    <a id="popupAdLink" class="ad-link-wrapper" href="#" target="_blank">
+        <img id="popupAdImage" class="ad-image" src="" alt="Annuncio Immagine Pop-up">
+        <div id="popupAdContent" class="ad-content"> 
+            <div id="popupAdTitle" class="ad-title">Caricamento Annuncio Pop-up...</div>
+            <div id="popupAdDescription" class="ad-description">Caricamento descrizione pop-up...</div>
+        </div>
+    </a>
+    <div id="popupAdInfoTextContainer" class="ad-info-text-container">
+        <div id="popupAdInfoText" class="ad-info-text">ADS By Dark</div>
+    </div>
+    <div id="popupAdControls" class="ad-controls">
+        <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('popup');">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
+        </button>
+        <button id="popupAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('popup');">
+            <i class="fa-solid fa-ellipsis-v"></i>
+        </button>
+    </div>
+</div>
+
 <div id="stickyAdBanner" class="ad-banner">
     <button id="stickyAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
     <a id="stickyAdLink" class="ad-link-wrapper" href="#" target="_blank">
@@ -645,6 +783,15 @@
     </div>
 </div>
 
+<div id="hidden-ad-removal-page">
+    <div id="removal-content">
+        <h1>Rimuovi Annunci Da Dark</h1>
+        <p>Con <strong>Dark Ads Removal NFC</strong>, puoi disattivare tutti gli annunci per 3 giorni.</p>
+        <button id="removeAdsButton">Rimuovi Annunci per 3 Giorni</button>
+        <button id="backToAppButton">Torna all'App</button>
+        <p id="statusMessage" style="color: var(--primary); margin-top: 15px; font-weight: 600;"></p>
+    </div>
+</div>
 <script type="module">
     // --- 1. Firebase Imports ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -669,6 +816,10 @@
     let currentAd = {}; // Memorizza l'annuncio attualmente visualizzato per non ricaricarlo
     let adsUnsubscribe = null; 
     let adRefreshTimers = {}; // Per gestire i timer di refresh casuale
+    
+    // Chiave per localStorage per il blocco annunci
+    const ADS_BLOCK_KEY = 'darkAdsBlockUntil';
+
 
     // --- 4. Elementi DOM Ads ---
     const elements = {
@@ -704,14 +855,48 @@
             infoCont: document.getElementById('middleAdInfoTextContainer'),
             image: document.getElementById('middleAdImage'), 
             contentDiv: document.getElementById('middleAdContent'), 
+        },
+        // Elementi per il Pop-up (180x150)
+        popup: { 
+            banner: document.getElementById('popupAdBanner'),
+            link: document.getElementById('popupAdLink'),
+            title: document.getElementById('popupAdTitle'),
+            desc: document.getElementById('popupAdDescription'),
+            controls: document.getElementById('popupAdControls'),
+            back: document.getElementById('popupAdBackArrow'),
+            infoCont: document.getElementById('popupAdInfoTextContainer'),
+            image: document.getElementById('popupAdImage'), 
+            contentDiv: document.getElementById('popupAdContent'), 
         }
     };
 
     // --- 5. Logica Annunci ---
     
     /**
+     * Controlla se gli annunci Dark sono bloccati.
+     * @returns {boolean} True se gli annunci sono bloccati, altrimenti False.
+     */
+    function isAdsBlocked() {
+        const blockUntil = localStorage.getItem(ADS_BLOCK_KEY);
+        if (!blockUntil) return false;
+
+        const blockTimestamp = parseInt(blockUntil, 10);
+        const now = Date.now();
+        
+        if (now < blockTimestamp) {
+            // Ancora bloccato
+            return true;
+        } else {
+            // Blocco scaduto, pulisce
+            localStorage.removeItem(ADS_BLOCK_KEY);
+            return false;
+        }
+    }
+
+
+    /**
      * Seleziona un annuncio casuale differente dall'annuncio corrente visualizzato in quel tipo di banner.
-     * @param {string} type - 'sticky', 'inline' o 'middle'
+     * @param {string} type - 'sticky', 'inline', 'middle' o 'popup'
      * @returns {object|null} L'annuncio selezionato.
      */
     function getRandomAd(type) {
@@ -751,13 +936,71 @@
             setupRandomRefreshTimer(type); // Reimposta il timer dopo il refresh
         }, randomTime);
     }
+    
+    /**
+     * Gestisce il ciclo di visualizzazione, scomparsa e refresh del Pop-up.
+     */
+    function setupPopupCycle() {
+        const type = 'popup';
+        const el = elements[type];
+        
+        // Pulisce eventuali timer precedenti
+        if (adRefreshTimers[type]) {
+            clearTimeout(adRefreshTimers[type]);
+        }
+        
+        // 1. Durata Visibile (10-15 secondi)
+        const displayDuration = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
+        // 2. Durata Nascosta (tra 0 e 5 secondi)
+        const hiddenDuration = Math.floor(Math.random() * 5000); 
+
+        // 1. Mostra l'annuncio
+        displayBannerAd(type, true); // Visualizza un nuovo annuncio
+        el.banner.style.display = 'flex';
+        // Forza l'animazione slide-in dopo un breve ritardo per il refresh
+        setTimeout(() => {
+            el.banner.classList.remove('hide');
+            el.banner.classList.add('show');
+        }, 50); 
+
+        // 2. Nascondi l'annuncio dopo displayDuration
+        adRefreshTimers[type] = setTimeout(() => {
+            el.banner.classList.remove('show');
+            el.banner.classList.add('hide');
+            
+            // 3. Rimuovi l'elemento e riavvia il ciclo dopo la transizione (500ms) + hiddenDuration
+            setTimeout(() => {
+                el.banner.style.display = 'none'; // Nascondi completamente alla fine della slide-out
+                // Riavvia il ciclo solo se gli annunci non sono bloccati
+                if (!isAdsBlocked()) {
+                    setupPopupCycle(); 
+                }
+            }, 500 + hiddenDuration); // 500ms = durata della transizione CSS
+            
+        }, displayDuration);
+    }
+
 
     /**
-     * Visualizza un annuncio.
-     * @param {string} type - 'sticky', 'inline' o 'middle'
+     * Visualizza un annuncio. (AGGIORNATA per il controllo di blocco)
+     * @param {string} type - 'sticky', 'inline', 'middle' o 'popup'
      * @param {boolean} [forceNewAd=false] - Forza la selezione di un nuovo annuncio casuale.
      */
     function displayBannerAd(type, forceNewAd = false) {
+        // Se gli annunci sono bloccati, nascondi e esci
+        if (isAdsBlocked()) {
+            const el = elements[type];
+            if (el) el.banner.style.display = 'none';
+            
+            // Pulisce il timer esistente se bloccato
+            if (adRefreshTimers[type]) {
+                 clearTimeout(adRefreshTimers[type]);
+                 delete adRefreshTimers[type];
+            }
+            return;
+        }
+
+
         let ad;
         if (forceNewAd) {
             ad = getRandomAd(type); // Prende un nuovo annuncio casuale
@@ -775,24 +1018,27 @@
         // Memorizza l'annuncio che stiamo visualizzando
         currentAd[type] = ad;
         
-        // Inizializza/reimposta il timer di refresh casuale se stiamo visualizzando l'annuncio
-        if (el.banner.style.display !== 'flex') {
-             setupRandomRefreshTimer(type);
-        }
-
         // Impostazioni comuni e reset
         el.link.href = ad.link; 
         el.link.classList.remove('hidden-content');
         el.infoCont.style.display = 'none';
         el.back.style.display = 'none';
         el.controls.style.display = 'flex';
-        el.banner.style.display = 'flex'; 
         
+        // Se non è il Pop-up, gestisci la visualizzazione standard e il timer
+        if (type !== 'popup') {
+            if (el.banner.style.display !== 'flex') {
+                 setupRandomRefreshTimer(type);
+            }
+             el.banner.style.display = 'flex'; 
+        }
+
         // Reset Immagine/Testo (per tutti i tipi)
         if (el.image && el.contentDiv) {
              el.image.style.display = 'none';
              el.contentDiv.style.display = 'flex';
              el.image.src = ''; 
+             el.banner.classList.remove('image-ad'); 
         }
         
         // --- Logica specifica per tipo di banner ---
@@ -800,7 +1046,6 @@
         if (type === 'sticky') {
              // Reset del padding del banner sticky
              el.banner.style.padding = '5px 0'; 
-             el.banner.classList.remove('image-ad'); 
              
             // Banner Sticky (Immagine Banner o Testo)
             if (ad.type === 'image' && ad.bannerImageUrl) {
@@ -817,12 +1062,10 @@
                 el.title.textContent = ad.title || 'Annuncio';
                 el.desc.textContent = ad.description || ad.link;
                 el.contentDiv.style.display = 'flex';
-                el.banner.classList.remove('image-ad'); 
             }
             
         } else { 
-            // Banner 250x250 (inline e middle)
-            el.banner.classList.remove('image-ad'); // Reset
+            // Banner 250x250 (inline, middle) e 180x150 (popup)
             el.banner.style.padding = '5px'; // Padding standard
             
             if (ad.type === 'image' && ad.imageUrl) {
@@ -845,7 +1088,7 @@
 
     /**
      * Mostra o nasconde la schermata delle informazioni dell'annuncio.
-     * @param {string} type - 'sticky', 'inline' o 'middle'
+     * @param {string} type - 'sticky', 'inline', 'middle' o 'popup'
      * @param {boolean} [showInfo=true] - Se mostrare (true) o nascondere (false) la schermata info.
      */
     window.toggleAdInfoView = (type, showInfo = true) => {
@@ -856,8 +1099,8 @@
             el.infoCont.style.display = 'flex';
             el.back.style.display = 'block'; 
             
-            // Pausa il timer quando si apre la schermata info
-            if (adRefreshTimers[type]) {
+            // Pausa il timer quando si apre la schermata info (solo per i banner non-popup)
+            if (adRefreshTimers[type] && type !== 'popup') {
                 clearTimeout(adRefreshTimers[type]);
             }
         } else {
@@ -866,8 +1109,10 @@
             el.infoCont.style.display = 'none';
             el.back.style.display = 'none';
             
-            // Riattiva il timer quando si chiude la schermata info
-            setupRandomRefreshTimer(type);
+            // Riattiva il timer quando si chiude la schermata info (solo per i banner non-popup)
+            if (type !== 'popup' && !isAdsBlocked()) {
+                setupRandomRefreshTimer(type);
+            }
         }
     };
     
@@ -875,6 +1120,7 @@
     elements.sticky.back.onclick = () => { window.toggleAdInfoView('sticky', false); };
     elements.inline.back.onclick = () => { window.toggleAdInfoView('inline', false); };
     elements.middle.back.onclick = () => { window.toggleAdInfoView('middle', false); }; 
+    elements.popup.back.onclick = () => { window.toggleAdInfoView('popup', false); }; 
 
     function startAdsListener() {
         if (adsUnsubscribe) adsUnsubscribe(); 
@@ -891,9 +1137,19 @@
             });
             
             // Inizializza o rinfresca gli annunci all'avvio/cambio dati
-            displayBannerAd('sticky', true);
-            displayBannerAd('inline', true);
-            displayBannerAd('middle', true); 
+            // Controlla il blocco prima di mostrare gli annunci
+            if (!isAdsBlocked()) {
+                displayBannerAd('sticky', true);
+                displayBannerAd('inline', true);
+                displayBannerAd('middle', true); 
+                setupPopupCycle();
+            } else {
+                 // Nascondi tutti i banner se il blocco è attivo
+                 Object.values(elements).forEach(el => {
+                    if(el.banner) el.banner.style.display = 'none';
+                 });
+            }
+            
         }, (error) => {
              console.error("Errore ads:", error);
              // Nascondi tutti i banner in caso di errore
@@ -915,7 +1171,11 @@
             console.error("Errore init Firebase:", error); 
         }
     }
-    initFirebase();
+    // Avvia l'inizializzazione solo se non siamo sulla pagina di rimozione annunci (per evitare problemi di visualizzazione)
+    if (window.location.pathname !== '/UyZ359ads496267925') {
+        initFirebase();
+    }
+
 
     // --- 6. LOGICA CHAT (MANTENUTA INVARIATA) ---
     const aiFab = document.getElementById('ai-fab');
@@ -1094,6 +1354,79 @@
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
+
+    // --- 7. LOGICA DI RIMOZIONE ANNUNCI E ROUTING ---
+
+    const REMOVAL_PATH = '/UyZ359ads496267925';
+    const adsRemovalPage = document.getElementById('hidden-ad-removal-page');
+    const removeAdsButton = document.getElementById('removeAdsButton');
+    const backToAppButton = document.getElementById('backToAppButton');
+    const statusMessage = document.getElementById('statusMessage');
+
+    /**
+     * Controlla la URL e mostra la pagina di rimozione annunci se la path corrisponde.
+     */
+    function checkUrlPath() {
+        if (window.location.pathname === REMOVAL_PATH) {
+            adsRemovalPage.style.display = 'flex';
+            // Aggiorna lo stato all'apertura
+            if (isAdsBlocked()) {
+                 const blockUntil = new Date(parseInt(localStorage.getItem(ADS_BLOCK_KEY), 10));
+                 statusMessage.textContent = `Annunci rimossi fino al: ${blockUntil.toLocaleString()}.`;
+                 removeAdsButton.disabled = true;
+            } else {
+                 statusMessage.textContent = 'Gli annunci sono attualmente attivi.';
+                 removeAdsButton.disabled = false;
+            }
+        } else {
+            adsRemovalPage.style.display = 'none';
+        }
+    }
+
+    /**
+     * Rimuove gli annunci per 3 giorni e aggiorna lo stato.
+     */
+    removeAdsButton.addEventListener('click', () => {
+        const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+        const blockUntilTimestamp = Date.now() + THREE_DAYS_MS;
+        
+        localStorage.setItem(ADS_BLOCK_KEY, blockUntilTimestamp.toString());
+        
+        const blockUntilDate = new Date(blockUntilTimestamp);
+        statusMessage.textContent = `Annunci rimossi con successo fino al: ${blockUntilDate.toLocaleString()}.`;
+        removeAdsButton.disabled = true;
+
+        // Forziamo il nascondimento degli annunci nella pagina principale e puliamo i timer
+        Object.values(elements).forEach(el => {
+            if(el.banner) el.banner.style.display = 'none';
+        });
+        Object.keys(adRefreshTimers).forEach(key => {
+            clearTimeout(adRefreshTimers[key]);
+            delete adRefreshTimers[key];
+        });
+    });
+
+    /**
+     * Torna alla pagina principale e aggiorna la URL.
+     */
+    backToAppButton.addEventListener('click', () => {
+        window.history.pushState({}, '', '/');
+        adsRemovalPage.style.display = 'none';
+        // Forziamo il check iniziale degli annunci in caso di sblocco (se il blocco è scaduto)
+        if (!isAdsBlocked()) {
+             // Riavvia gli annunci
+             displayBannerAd('sticky', true);
+             displayBannerAd('inline', true);
+             displayBannerAd('middle', true);
+             setupPopupCycle();
+        }
+    });
+
+    // Gestione della navigazione con back/forward del browser
+    window.addEventListener('popstate', checkUrlPath);
+
+    // Esegui il check iniziale della URL (utile se la pagina viene caricata direttamente sulla path nascosta)
+    checkUrlPath();
 
 </script>
 
