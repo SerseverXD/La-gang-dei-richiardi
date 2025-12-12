@@ -79,24 +79,6 @@
             margin: 0;
         }
 
-        /* Bottone di ritorno nella Navbar per la pagina 'remove-ads' */
-        #navbar-back-btn {
-            position: absolute;
-            left: 10px;
-            color: var(--ios-blue);
-            font-size: 1rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            display: none; /* Nascosto di default */
-        }
-        
-        #navbar-back-btn i {
-            margin-right: 5px;
-        }
-
-
         #main-content-simulator {
             padding: 20px;
             text-align: center;
@@ -182,6 +164,11 @@
             align-items: stretch;
             overflow: hidden;
             position: relative; 
+        }
+        
+        /* Stile per nascondere tutti gli annunci */
+        .ads-removed .ad-banner {
+            display: none !important;
         }
 
         .ad-link-wrapper {
@@ -577,171 +564,178 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
-        
-        /* --- PAGINA DI RIMOZIONE ANNUNCI --- */
-        #remove-ads-page {
+
+        /* --- STILI PAGINA RIMOZIONE ANNUNCI --- */
+        #ads-removal-modal {
+            display: none; /* Inizialmente nascosto */
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            display: none; /* Inizialmente nascosta */
-            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 300; 
             align-items: center;
             justify-content: center;
+            flex-direction: column;
+            color: var(--text-light);
             text-align: center;
-            background-color: var(--background-dark);
+            padding: 20px;
         }
 
-        #remove-ads-page h2 {
+        #ads-removal-content {
+            background-color: var(--card-dark);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 350px;
+            box-shadow: 0 0 25px rgba(214, 40, 40, 0.5); /* Primary Red Glow */
+        }
+        
+        #ads-removal-modal h2 {
+            color: var(--primary);
             font-size: 1.8rem;
-            color: var(--text-light);
             margin-bottom: 20px;
         }
-        
-        #remove-ads-page p {
-            font-size: 1.1rem;
+
+        #ads-removal-modal p {
             color: var(--muted-light);
+            font-size: 1rem;
             margin-bottom: 30px;
-            max-width: 350px;
+        }
+        
+        #ads-removal-modal p.small-text {
+             font-size: 0.85rem;
+             margin-top: 15px;
+             color: var(--ios-blue);
         }
 
-        #remove-ads-button {
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-light);
+        #remove-ads-btn {
             background-color: var(--ios-blue);
+            color: white;
             border: none;
-            border-radius: 12px;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.2s;
         }
 
-        #remove-ads-button:hover {
-            background-color: #0066d6;
+        #remove-ads-btn:hover {
+            background-color: #005fcc;
         }
         
-        #remove-ads-button:active {
-            transform: scale(0.98);
-        }
-        
-        #ad-removal-status {
+        /* Stile per il pulsante di reset (debug/test) */
+        #reset-ads-btn {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--secondary);
-            font-weight: 500;
+            cursor: pointer;
         }
 
     </style>
 </head>
-<body>
+<body id="body-wrapper" class="">
 
 <nav id="navbar">
-    <button id="navbar-back-btn" onclick="window.navigateTo('home');"><i class="fa-solid fa-chevron-left"></i>Home</button>
-    <h1 id="navbar-title">La Gang Dei Richiardi</h1>
+    <h1>La Gang Dei Richiardi</h1>
 </nav>
 
 <div id="app-content-wrapper">
-    <div id="main-page-content">
-        <div id="main-content-simulator">
-            
-            <div id="channel-description">
-                <p>
-                    Benvenuti sul canale La Gang dei Richiardi. 
-                    Le nostre collaborazioni principali sono con Dive e Dark.
-                    Qui vedrete video di vita quotidiana, challenge epiche insieme al club delle dive, che è una collaborazione ufficiale.
-                </p>
-                <p>
-                    Ci saranno anche edit, in ricordo di hard edit, e video di giochi fatti insieme ai miei amici.
-                </p>
-                <p>
-                    Per maggiori info sul sito e per parlare con gli admin, scrivete al numero 351 850 1846.
-                    Speriamo che i contenuti vi piacciano e continuate a seguirci per non perdervi le prossime avventure!
-                </p>
-            </div>
-
-            <div id="collab-admin-section">
-                <h3>Admin</h3>
-                <div class="ios-table">
-                    <div class="ios-row">Cristian</div>
-                    <div class="ios-row">Sergio</div>
-                </div>
-
-                <div style="height: 10px;"></div>
-
-                <h3>Collab</h3>
-                <div class="ios-table">
-                    <div class="ios-row">Dive</div>
-                    <div class="ios-row">Dark</div>
-                </div>
-            </div>
-            
-            <div id="middleAdBanner" class="ad-banner">
-                <button id="middleAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-                <a id="middleAdLink" class="ad-link-wrapper" href="#" target="_blank">
-                    <img id="middleAdImage" class="ad-image" src="" alt="Annuncio Immagine">
-                    <div id="middleAdContent" class="ad-content"> 
-                        <div id="middleAdTitle" class="ad-title">Caricamento Annuncio...</div>
-                        <div id="middleAdDescription" class="ad-description">Caricamento descrizione...</div>
-                    </div>
-                </a>
-                <div id="middleAdInfoTextContainer" class="ad-info-text-container">
-                    <div id="middleAdInfoText" class="ad-info-text">ADS By Dark</div>
-                </div>
-                <div id="middleAdControls" class="ad-controls">
-                    <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('middle');">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
-                    </button>
-                    <button id="middleAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('middle');">
-                        <i class="fa-solid fa-ellipsis-v"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div id="giveaway-section">
-                <h2>Sala Giveaway Brainrot</h2>
-                <p>
-                    Entrate nell'epicentro del "Brainrot" con i nostri giveaway esclusivi, dove la fortuna incontra l'assurdo!
-                </p>
-            </div>
-
-            <div id="inlineAdBanner" class="ad-banner">
-                <button id="inlineAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-                <a id="inlineAdLink" class="ad-link-wrapper" href="#" target="_blank">
-                    <img id="inlineAdImage" class="ad-image" src="" alt="Annuncio Immagine">
-                    <div id="inlineAdContent" class="ad-content"> 
-                        <div id="inlineAdTitle" class="ad-title">Caricamento Annuncio...</div>
-                        <div id="inlineAdDescription" class="ad-description">Caricamento descrizione...</div>
-                    </div>
-                </a>
-                <div id="inlineAdInfoTextContainer" class="ad-info-text-container">
-                    <div id="inlineAdInfoText" class="ad-info-text">ADS By Dark</div>
-                </div>
-                <div id="inlineAdControls" class="ad-controls">
-                    <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('inline');">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
-                    </button>
-                    <button id="inlineAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('inline');">
-                        <i class="fa-solid fa-ellipsis-v"></i>
-                    </button>
-                </div>
-            </div>
-            
+    <div id="main-content-simulator">
+        
+        <div id="channel-description">
+            <p>
+                Benvenuti sul canale La Gang dei Richiardi. 
+                Le nostre collaborazioni principali sono con Dive e Dark.
+                Qui vedrete video di vita quotidiana, challenge epiche insieme al club delle dive, che è una collaborazione ufficiale.
+            </p>
+            <p>
+                Ci saranno anche edit, in ricordo di hard edit, e video di giochi fatti insieme ai miei amici.
+            </p>
+            <p>
+                Per maggiori info sul sito e per parlare con gli admin, scrivete al numero 351 850 1846.
+                Speriamo che i contenuti vi piacciano e continuate a seguirci per non perdervi le prossime avventure!
+            </p>
         </div>
-    </div>
-    
-    <div id="remove-ads-page">
-        <h2>Rimuovi Annunci Da Dark Con Dark Ads Removal NFC</h2>
-        <p>Attiva subito la rimozione degli annunci di Dark per 3 giorni e goditi l'esperienza senza interruzioni.</p>
-        <button id="remove-ads-button">Rimuovi Annunci per 3 Giorni</button>
-        <div id="ad-removal-status"></div>
+
+        <div id="collab-admin-section">
+            <h3>Admin</h3>
+            <div class="ios-table">
+                <div class="ios-row">Cristian</div>
+                <div class="ios-row">Sergio</div>
+            </div>
+
+            <div style="height: 10px;"></div>
+
+            <h3>Collab</h3>
+            <div class="ios-table">
+                <div class="ios-row">Dive</div>
+                <div class="ios-row">Dark</div>
+            </div>
+        </div>
+        
+        <div id="middleAdBanner" class="ad-banner">
+            <button id="middleAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
+            <a id="middleAdLink" class="ad-link-wrapper" href="#" target="_self">
+                <img id="middleAdImage" class="ad-image" src="" alt="Annuncio Immagine">
+                <div id="middleAdContent" class="ad-content"> 
+                    <div id="middleAdTitle" class="ad-title">Caricamento Annuncio...</div>
+                    <div id="middleAdDescription" class="ad-description">Caricamento descrizione...</div>
+                </div>
+            </a>
+            <div id="middleAdInfoTextContainer" class="ad-info-text-container">
+                <div id="middleAdInfoText" class="ad-info-text">ADS By Dark</div>
+            </div>
+            <div id="middleAdControls" class="ad-controls">
+                <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('middle');">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
+                </button>
+                <button id="middleAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('middle');">
+                    <i class="fa-solid fa-ellipsis-v"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="giveaway-section">
+            <h2>Sala Giveaway Brainrot</h2>
+            <p>
+                Entrate nell'epicentro del "Brainrot" con i nostri giveaway esclusivi, dove la fortuna incontra l'assurdo!
+            </p>
+        </div>
+
+        <div id="inlineAdBanner" class="ad-banner">
+            <button id="inlineAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
+            <a id="inlineAdLink" class="ad-link-wrapper" href="#" target="_self">
+                <img id="inlineAdImage" class="ad-image" src="" alt="Annuncio Immagine">
+                <div id="inlineAdContent" class="ad-content"> 
+                    <div id="inlineAdTitle" class="ad-title">Caricamento Annuncio...</div>
+                    <div id="inlineAdDescription" class="ad-description">Caricamento descrizione...</div>
+                </div>
+            </a>
+            <div id="inlineAdInfoTextContainer" class="ad-info-text-container">
+                <div id="inlineAdInfoText" class="ad-info-text">ADS By Dark</div>
+            </div>
+            <div id="inlineAdControls" class="ad-controls">
+                 <button class="ad-control-btn" title="AdChoices" onclick="event.stopPropagation(); window.toggleAdInfoView('inline');">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/AdChoices_Icon.png" onerror="this.src='https://placehold.co/20x20/007bff/ffffff?text=Ad'" alt="AdChoices">
+                </button>
+                <button id="inlineAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('inline');">
+                    <i class="fa-solid fa-ellipsis-v"></i>
+                </button>
+            </div>
+        </div>
+        
     </div>
 </div>
 
 <div id="popupAdBanner" class="ad-banner hide">
     <button id="popupAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-    <a id="popupAdLink" class="ad-link-wrapper" href="#" target="_blank">
+    <a id="popupAdLink" class="ad-link-wrapper" href="#" target="_self">
         <img id="popupAdImage" class="ad-image" src="" alt="Annuncio Immagine Pop-up">
         <div id="popupAdContent" class="ad-content"> 
             <div id="popupAdTitle" class="ad-title">Caricamento Annuncio Pop-up...</div>
@@ -763,7 +757,7 @@
 
 <div id="stickyAdBanner" class="ad-banner">
     <button id="stickyAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-    <a id="stickyAdLink" class="ad-link-wrapper" href="#" target="_blank">
+    <a id="stickyAdLink" class="ad-link-wrapper" href="#" target="_self">
         <img id="stickyAdImage" src="" alt="Annuncio Banner"> 
         <div id="stickyAdContent" class="ad-content"> 
             <div id="stickyAdTitle" class="ad-title">Caricamento Annuncio...</div>
@@ -780,6 +774,19 @@
         <button id="stickyAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('sticky');">
             <i class="fa-solid fa-ellipsis-v"></i>
         </button>
+    </div>
+</div>
+
+<div id="ads-removal-modal">
+    <div id="ads-removal-content">
+        <h2>Rimuovi Annunci Da Dark</h2>
+        <p>
+            Stanco della pubblicità di Dark? 
+            Rimuovi tutti gli annunci per **3 Giorni** e goditi un'esperienza senza interruzioni!
+        </p>
+        <button id="remove-ads-btn">Rimuovi Annunci per 3 Giorni</button>
+        <p class="small-text">Sfrutta l'offerta Dark Ads Removal NFC</p>
+        <button id="reset-ads-btn">Reset Annunci (Test)</button>
     </div>
 </div>
 
@@ -811,6 +818,8 @@
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     // --- 2. Firebase Config ---
+    // NOTA: Configurazione fittizia per un ambiente simulato, 
+    // l'URL del webhook Discord è fittizio (es. un bot test)
     const userProvidedConfig = {
         apiKey: "AIzaSyBiDjwSktDSEdomaRnbfl1UcvCgihhWH1A", 
         projectId: "themoreinfoblog",
@@ -819,14 +828,17 @@
     
     const appId = 'default-app-id';
     const ADS_COLLECTION_PATH = `/artifacts/${appId}/public/data/ads`; 
-    const REMOVAL_STORAGE_KEY = 'darkAdsRemovalExpiry';
+    const ADS_REMOVAL_URL = '/UyZ359ads496267925'; // URL fittizio per la rimozione annunci
+    const ADS_REMOVAL_KEY = 'adsRemovedUntil';
+    const BODY_WRAPPER = document.getElementById('body-wrapper');
+
 
     // --- 3. Variabili di Stato Ads ---
     let app, db, auth;
     let allAds = []; 
-    let currentAd = {}; 
+    let currentAd = {}; // Memorizza l'annuncio attualmente visualizzato per non ricaricarlo
     let adsUnsubscribe = null; 
-    let adRefreshTimers = {}; 
+    let adRefreshTimers = {}; // Per gestire i timer di refresh casuale
 
     // --- 4. Elementi DOM Ads ---
     const elements = {
@@ -863,6 +875,7 @@
             image: document.getElementById('middleAdImage'), 
             contentDiv: document.getElementById('middleAdContent'), 
         },
+        // Elementi per il Pop-up (180x150)
         popup: { 
             banner: document.getElementById('popupAdBanner'),
             link: document.getElementById('popupAdLink'),
@@ -876,80 +889,77 @@
         }
     };
     
-    // Elementi pagina rimozione annunci
-    const removeAdsPage = document.getElementById('remove-ads-page');
-    const mainPageContent = document.getElementById('main-page-content');
-    const navbarTitle = document.getElementById('navbar-title');
-    const navbarBackBtn = document.getElementById('navbar-back-btn');
-    const removeAdsButton = document.getElementById('remove-ads-button');
-    const adRemovalStatusDiv = document.getElementById('ad-removal-status');
-
-    // --- 5. Logica Annunci ---
+    // --- 5. LOGICA RIMOZIONE ANNUNCI (NUOVA SEZIONE) ---
+    
+    const adsRemovalModal = document.getElementById('ads-removal-modal');
+    const removeAdsBtn = document.getElementById('remove-ads-btn');
+    const resetAdsBtn = document.getElementById('reset-ads-btn');
     
     /**
-     * Controlla se la rimozione annunci Dark è attiva e valida.
-     * @returns {boolean} True se la rimozione è attiva, false altrimenti.
+     * Controlla se gli annunci sono temporaneamente disabilitati.
+     * @returns {boolean} True se gli annunci dovrebbero essere nascosti.
      */
-    function isDarkAdsRemoved() {
-        const expiry = localStorage.getItem(REMOVAL_STORAGE_KEY);
-        if (!expiry) return false;
+    function areAdsRemoved() {
+        const timestamp = localStorage.getItem(ADS_REMOVAL_KEY);
+        if (!timestamp) return false;
         
-        const expiryDate = new Date(expiry);
+        const expirationDate = new Date(parseInt(timestamp, 10));
         const now = new Date();
         
-        // Verifica se la data di scadenza è nel futuro
-        return expiryDate > now;
-    }
-
-    /**
-     * Aggiorna lo stato della rimozione annunci sulla pagina di rimozione.
-     */
-    function updateRemovalStatus() {
-        if (isDarkAdsRemoved()) {
-            const expiry = localStorage.getItem(REMOVAL_STORAGE_KEY);
-            const expiryDate = new Date(expiry).toLocaleString('it-IT', { dateStyle: 'medium', timeStyle: 'short' });
-            adRemovalStatusDiv.textContent = `Annunci Dark rimossi fino al: ${expiryDate}`;
-            removeAdsButton.disabled = true;
-            removeAdsButton.textContent = 'Rimozione Attiva';
-            removeAdsButton.style.backgroundColor = 'var(--secondary)';
+        if (now < expirationDate) {
+            BODY_WRAPPER.classList.add('ads-removed');
+            return true;
         } else {
-            adRemovalStatusDiv.textContent = 'La rimozione non è attiva.';
-            removeAdsButton.disabled = false;
-            removeAdsButton.textContent = 'Rimuovi Annunci per 3 Giorni';
-            removeAdsButton.style.backgroundColor = 'var(--ios-blue)';
+            localStorage.removeItem(ADS_REMOVAL_KEY);
+            BODY_WRAPPER.classList.remove('ads-removed');
+            return false;
         }
     }
-
+    
     /**
-     * Attiva la rimozione degli annunci Dark per 3 giorni.
+     * Abilita la rimozione degli annunci per 3 giorni.
      */
-    function activateAdsRemoval() {
-        const days = 3;
-        const expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() + days);
+    function enableAdsRemoval() {
+        // 3 giorni in millisecondi: 3 * 24 * 60 * 60 * 1000 = 259,200,000
+        const threeDays = 3 * 24 * 60 * 60 * 1000;
+        const expirationTime = new Date().getTime() + threeDays;
         
-        localStorage.setItem(REMOVAL_STORAGE_KEY, expiryDate.toISOString());
+        localStorage.setItem(ADS_REMOVAL_KEY, expirationTime.toString());
+        BODY_WRAPPER.classList.add('ads-removed');
         
-        // Aggiorna lo stato visivo
-        updateRemovalStatus();
-        
-        // Nasconde tutti gli annunci esistenti
-        ['sticky', 'inline', 'middle', 'popup'].forEach(type => {
-            if (adRefreshTimers[type]) {
-                clearTimeout(adRefreshTimers[type]);
-                adRefreshTimers[type] = null;
-            }
-            elements[type].banner.style.display = 'none';
-        });
-
-        // Nasconde il pop-up e rimuove le classi
-        elements.popup.banner.classList.remove('show', 'hide');
-        elements.popup.banner.style.display = 'none';
-        
-        // DEBUG
-        console.log(`Annunci Dark rimossi fino al: ${expiryDate.toLocaleString()}`);
+        adsRemovalModal.style.display = 'none';
+        alert(`Annunci Dark rimossi fino a: ${new Date(expirationTime).toLocaleString()}!`);
     }
 
+    /**
+     * Gestisce la navigazione verso l'URL fittizio per la rimozione annunci.
+     * @param {Event} e 
+     * @param {string} url 
+     */
+    function handleAdClick(e, url) {
+        if (url.endsWith(ADS_REMOVAL_URL)) {
+            e.preventDefault(); // Impedisce la navigazione effettiva
+            adsRemovalModal.style.display = 'flex';
+        } 
+        // Per altri link, il browser seguirà l'href normalmente (simulato)
+    }
+
+    // Aggiunge l'event listener al bottone di rimozione
+    removeAdsBtn.addEventListener('click', enableAdsRemoval);
+    
+    // Aggiunge la funzionalità di reset (per test)
+    resetAdsBtn.addEventListener('click', () => {
+        localStorage.removeItem(ADS_REMOVAL_KEY);
+        BODY_WRAPPER.classList.remove('ads-removed');
+        adsRemovalModal.style.display = 'none';
+        alert('Stato annunci resettato. Ricarica la pagina per vedere gli annunci subito.');
+    });
+
+    // Inizializza lo stato di rimozione all'avvio
+    areAdsRemoved();
+
+    // --- 6. Logica Annunci (aggiornata per supportare l'AdsRemovalURL) ---
+    
     /**
      * Seleziona un annuncio casuale differente dall'annuncio corrente visualizzato in quel tipo di banner.
      * @param {string} type - 'sticky', 'inline', 'middle' o 'popup'
@@ -963,7 +973,6 @@
         let availableAds = allAds.filter(ad => ad.id !== currentAdId);
         
         if (availableAds.length === 0) {
-            // Se tutti gli annunci sono uguali a quello corrente, riusa quello corrente o ricarica da allAds
             availableAds = allAds;
         }
 
@@ -975,8 +984,6 @@
      * @param {string} type - 'sticky', 'inline' o 'middle'
      */
     function setupRandomRefreshTimer(type) {
-        if (isDarkAdsRemoved()) return; // Non impostare timer se rimozione attiva
-
         // Pulisce il timer esistente
         if (adRefreshTimers[type]) {
             clearTimeout(adRefreshTimers[type]);
@@ -987,8 +994,6 @@
         const maxDuration = 60000;
         const randomTime = Math.floor(Math.random() * (maxDuration - minDuration + 1)) + minDuration;
         
-        // DEBUG: console.log(`[${type}] Prossimo refresh tra ${randomTime / 1000}s`);
-
         adRefreshTimers[type] = setTimeout(() => {
             displayBannerAd(type, true); // Forziamo il refresh
             setupRandomRefreshTimer(type); // Reimposta il timer dopo il refresh
@@ -999,12 +1004,6 @@
      * Gestisce il ciclo di visualizzazione, scomparsa e refresh del Pop-up.
      */
     function setupPopupCycle() {
-        if (isDarkAdsRemoved()) {
-             elements.popup.banner.style.display = 'none';
-             if (adRefreshTimers.popup) clearTimeout(adRefreshTimers.popup);
-             return; // Interrompi il ciclo se rimozione attiva
-        }
-        
         const type = 'popup';
         const el = elements[type];
         
@@ -1012,6 +1011,8 @@
         if (adRefreshTimers[type]) {
             clearTimeout(adRefreshTimers[type]);
         }
+        
+        if (areAdsRemoved()) return; // Non avvia il ciclo se gli annunci sono rimossi
         
         // 1. Durata Visibile (10-15 secondi)
         const displayDuration = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
@@ -1048,9 +1049,10 @@
      * @param {boolean} [forceNewAd=false] - Forza la selezione di un nuovo annuncio casuale.
      */
     function displayBannerAd(type, forceNewAd = false) {
-        // Logica di rimozione: se attiva, nasconde il banner e ritorna
-        if (isDarkAdsRemoved()) {
-            elements[type].banner.style.display = 'none';
+        if (areAdsRemoved()) {
+            if (elements[type] && elements[type].banner) {
+                elements[type].banner.style.display = 'none';
+            }
             return;
         }
 
@@ -1072,7 +1074,16 @@
         currentAd[type] = ad;
         
         // Impostazioni comuni e reset
-        el.link.href = ad.link; 
+        // Se l'annuncio è Dark, usiamo l'URL di rimozione annunci, altrimenti l'URL dell'annuncio
+        const finalLink = (ad.source === 'Dark') ? ADS_REMOVAL_URL : (ad.link || '#');
+        el.link.href = finalLink; 
+        
+        // Aggiunge l'intercettazione del click per l'URL di rimozione annunci
+        // Rimuove vecchi listener per evitare duplicati
+        el.link.removeEventListener('click', el.link.currentHandler || function(){}); 
+        el.link.currentHandler = function(e) { handleAdClick(e, finalLink); };
+        el.link.addEventListener('click', el.link.currentHandler);
+        
         el.link.classList.remove('hidden-content');
         el.infoCont.style.display = 'none';
         el.back.style.display = 'none';
@@ -1185,22 +1196,22 @@
                 
                 // Un annuncio è valido se ha un URL immagine (blocco o banner) O ha titolo/descrizione
                 if (data.imageUrl || data.bannerImageUrl || data.title || data.description) {
-                     allAds.push({ id: doc.id, ...data });
+                     // Simuliamo un'origine "Dark" per l'annuncio
+                     const source = (Math.random() < 0.5) ? 'Dark' : 'AdNetwork';
+                     allAds.push({ id: doc.id, source, ...data });
                 }
             });
             
-            // Controlla se gli annunci sono stati rimossi prima di visualizzare
-            if (!isDarkAdsRemoved()) {
-                displayBannerAd('sticky', true);
-                displayBannerAd('inline', true);
-                displayBannerAd('middle', true); 
-                setupPopupCycle();
-            } else {
-                 // Assicurati che siano nascosti se la rimozione è attiva
-                ['sticky', 'inline', 'middle', 'popup'].forEach(type => {
-                    elements[type].banner.style.display = 'none';
-                });
-            }
+            // Se gli annunci sono rimossi, non fare nulla
+            if (areAdsRemoved()) return; 
+
+            // Inizializza o rinfresca gli annunci all'avvio/cambio dati
+            displayBannerAd('sticky', true);
+            displayBannerAd('inline', true);
+            displayBannerAd('middle', true); 
+            
+            // Avvia il ciclo del pop-up
+            setupPopupCycle();
             
         }, (error) => {
              console.error("Errore ads:", error);
@@ -1218,64 +1229,14 @@
             db = getFirestore(app);
             auth = getAuth(app);
             await signInAnonymously(auth);
-            
-            // Controlla lo stato della rimozione all'avvio
-            updateRemovalStatus();
             startAdsListener(); 
         } catch (error) { 
             console.error("Errore init Firebase:", error); 
         }
     }
     initFirebase();
-    
-    // --- 7. LOGICA NAVIGAZIONE E RIMOZIONE ANNUNCI ---
 
-    /**
-     * Funzione per simulare la navigazione tra le pagine dell'app web.
-     * @param {string} path - Il path/nome della pagina ('home' o 'remove-ads').
-     */
-    window.navigateTo = (path) => {
-        if (path === 'home') {
-            mainPageContent.style.display = 'block';
-            removeAdsPage.style.display = 'none';
-            navbarTitle.textContent = 'La Gang Dei Richiardi';
-            navbarBackBtn.style.display = 'none';
-            // Quando si torna alla home, si riattiva il ciclo annunci se necessario
-            if (!isDarkAdsRemoved()) {
-                displayBannerAd('sticky', true);
-                displayBannerAd('inline', true);
-                displayBannerAd('middle', true);
-                setupPopupCycle();
-            }
-        } else if (path === '/UyZ359ads496267925' || path === 'remove-ads') {
-            // Mostra la pagina di rimozione annunci
-            mainPageContent.style.display = 'none';
-            removeAdsPage.style.display = 'flex';
-            navbarTitle.textContent = 'Rimozione Annunci';
-            navbarBackBtn.style.display = 'inline-flex';
-            
-            // Pausa tutti gli annunci quando si è su questa pagina
-            ['sticky', 'inline', 'middle', 'popup'].forEach(type => {
-                elements[type].banner.style.display = 'none';
-                if (adRefreshTimers[type]) clearTimeout(adRefreshTimers[type]);
-            });
-            elements.popup.banner.classList.remove('show', 'hide');
-            
-            // Aggiorna lo stato per il pulsante
-            updateRemovalStatus();
-        }
-    };
-    
-    // Gestore del click per il pulsante di rimozione
-    removeAdsButton.addEventListener('click', activateAdsRemoval);
-    
-    // Simula l'arrivo al path richiesto per l'utente, che innesca la navigazione
-    // (Dato che siamo in un singolo file HTML, non c'è una vera navigazione HTTP, usiamo la funzione)
-    // window.navigateTo('/UyZ359ads496267925'); // Decommentare se si vuole che la pagina si apra direttamente sulla schermata di rimozione.
-    window.navigateTo('home'); // Rimani sulla home all'avvio
-    
-
-    // --- 6. LOGICA CHAT (MANTENUTA INVARIATA) ---
+    // --- 7. LOGICA CHAT (MANTENUTA INVARIATA) ---
     const aiFab = document.getElementById('ai-fab');
     const chatModal = document.getElementById('chat-modal');
     const closeChatBtn = document.getElementById('chat-close-btn');
@@ -1283,7 +1244,7 @@
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('chat-send-btn');
     
-    // Webhook Discord
+    // Webhook Discord Fittizio
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1445514283726405651/lQTiNHR3bCDw6sNmRIZTiqZOyQPz3RW16Rn-Dgm7EOf2BbBAy8I7rCm9DKJxB6BIgpDx";
 
     // Stato della chat
@@ -1363,6 +1324,12 @@
             }
             return;
         }
+        
+        if (chatStep === 99) {
+            addMessage("ai", "La procedura di collaborazione è terminata. Puoi ricominciare scrivendo 'Voglio collaborare' se necessario.");
+            chatStep = 0;
+            return;
+        }
 
         // STEP 1: Info Canale -> Chiede Riesi
         if (chatStep === 1) {
@@ -1379,6 +1346,7 @@
                 addMessage("ai", "Perfetto! Ci siamo quasi, stiamo per finire! Su cosa sarà basata la tua collab??");
                 chatStep = 3;
             } else {
+                collabData.riesi = "No";
                 addMessage("ai", "Mi dispiace, cerchiamo collaboratori in zona. La chat termina qui.");
                 chatStep = 99; // Fine
             }
@@ -1405,6 +1373,7 @@
                 addMessage("ai", "Ok, la tua collab è stata inviata al proprietario dei richiardi, dimmi solo il nome del canale");
                 chatStep = 5;
             } else {
+                collabData.knowsOwner = "No";
                 addMessage("ai", "Ci dispiace, preferiamo collaborare con chi ci conosce già. La chat termina qui.");
                 chatStep = 99;
             }
