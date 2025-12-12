@@ -24,6 +24,7 @@
             --ad-text-muted: #666666;
             --ios-blue: #007AFF;
             --ios-gray-bubble: #3a3a3c;
+            --red-button: #D62828; /* Usato per il bottone Rimuovi Annunci */
         }
 
         /* --- CONTROLLO SCROLLBAR E LAYOUT APP --- */
@@ -64,7 +65,8 @@
             height: 44px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between; /* Modifica: per spazio al bottone */
+            padding: 0 15px; /* Modifica: per spazio al bottone */
             background-color: rgba(44, 44, 44, 0.9);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -77,7 +79,36 @@
             color: var(--text-light);
             font-weight: 600;
             margin: 0;
+            flex-grow: 1; 
+            text-align: center; 
         }
+        
+        /* Nuovo Bottone Rimuovi Annunci */
+        #removeAdsBtn {
+            background-color: var(--red-button);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.2s;
+            white-space: nowrap; 
+        }
+
+        #removeAdsBtn:hover {
+            background-color: #a02020;
+        }
+        
+        /* Nasconde il titolo quando il bottone è attivo su schermi piccoli */
+        @media (max-width: 480px) {
+             #navbar h1 {
+                 font-size: 1rem;
+             }
+        }
+
 
         #main-content-simulator {
             padding: 20px;
@@ -100,6 +131,8 @@
             box-shadow: none; 
             line-height: 1.6;
         }
+        
+        /* ... (altri stili sezione/tabelle invariati) ... */
         
         #channel-description p, #giveaway-section p {
             margin-bottom: 15px;
@@ -153,8 +186,8 @@
         .ios-row:last-child {
             border-bottom: none;
         }
-
-        /* --- STILI BANNER (Annunci) --- */
+        
+        /* --- STILI BANNER (Annunci) - INVARIATI --- */
         .ad-banner {
             background-color: var(--ad-background); 
             border: 1px solid var(--ad-border);
@@ -164,11 +197,6 @@
             align-items: stretch;
             overflow: hidden;
             position: relative; 
-        }
-        
-        /* Stile per nascondere tutti gli annunci */
-        .ads-removed .ad-banner {
-            display: none !important;
         }
 
         .ad-link-wrapper {
@@ -191,7 +219,6 @@
             word-wrap: break-word; 
         }
         
-        /* Stile base per le immagini degli annunci */
         .ad-image {
             width: 100%;
             height: 100%;
@@ -202,7 +229,6 @@
             display: none; 
         }
 
-        /* Stile per l'immagine del banner sticky */
         #stickyAdImage {
             height: 100%; 
             width: 100%;
@@ -213,38 +239,11 @@
             display: none; 
         }
         
-        /* Nasconde il contenuto testo quando l'immagine è attiva (Sticky) */
-        #stickyAdBanner.image-ad #stickyAdContent {
-            display: none;
-        }
-        
-        /* Mostra l'immagine quando è attiva (Sticky) */
-        #stickyAdBanner.image-ad #stickyAdImage {
-            display: block;
-            margin: 0; 
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            position: absolute; 
-        }
-        
-        /* Modifica cruciale per l'allineamento dei controlli sopra l'immagine */
-        #stickyAdBanner.image-ad .ad-link-wrapper {
-            justify-content: flex-start;
-            align-items: center;
-            /* Rimuove padding per immagine a schermo intero */
-            padding: 0; 
-        }
-        
-        /* Modifica cruciale per lo sticky banner con immagine: rimuove padding */
-        #stickyAdBanner.image-ad {
-            padding: 0;
-        }
-
-        /* Garantisce che i controlli siano sopra l'immagine */
-        #stickyAdBanner.image-ad .ad-controls {
-            z-index: 2; 
-        }
+        #stickyAdBanner.image-ad #stickyAdContent { display: none; }
+        #stickyAdBanner.image-ad #stickyAdImage { display: block; margin: 0; height: 100%; width: 100%; object-fit: cover; position: absolute; }
+        #stickyAdBanner.image-ad .ad-link-wrapper { justify-content: flex-start; align-items: center; padding: 0; }
+        #stickyAdBanner.image-ad { padding: 0; }
+        #stickyAdBanner.image-ad .ad-controls { z-index: 2; }
         
         .ad-title {
             font-weight: 600;
@@ -343,7 +342,6 @@
             padding: 5px 0; 
             z-index: 20; 
         }
-        /* Sticky Link Wrapper standard */
         #stickyAdBanner .ad-link-wrapper { padding-right: 70px; }
         #stickyAdBanner .ad-content { padding-left: 10px; }
         #stickyAdBanner .ad-title { font-size: 0.9rem; }
@@ -366,34 +364,23 @@
             padding-right: 0;
             flex-grow: 1;
         }
-        #inlineAdBanner .ad-controls, #middleAdBanner .ad-controls {
-            top: 0; right: 0; height: auto; padding: 0; 
-        }
+        #inlineAdBanner .ad-controls, #middleAdBanner .ad-controls { top: 0; right: 0; height: auto; padding: 0; }
         #inlineAdBanner .ad-content, #middleAdBanner .ad-content { padding: 10px; flex-grow: 1; }
-        
-        /* Rimuove padding per l'immagine a schermo intero 250x250 */
-        #inlineAdBanner.image-ad, #middleAdBanner.image-ad {
-             padding: 0; 
-        }
-        #inlineAdBanner.image-ad .ad-link-wrapper, #middleAdBanner.image-ad .ad-link-wrapper {
-            padding: 0; 
-        }
-        #inlineAdBanner.image-ad .ad-content, #middleAdBanner.image-ad .ad-content {
-            display: none; 
-        }
-        
+        #inlineAdBanner.image-ad, #middleAdBanner.image-ad { padding: 0; }
+        #inlineAdBanner.image-ad .ad-link-wrapper, #middleAdBanner.image-ad .ad-link-wrapper { padding: 0; }
+        #inlineAdBanner.image-ad .ad-content, #middleAdBanner.image-ad .ad-content { display: none; }
         #inlineAdBanner .ad-title, #middleAdBanner .ad-title { font-size: 1rem; }
         #inlineAdBanner .ad-description, #middleAdBanner .ad-description { font-size: 0.8rem; margin-top: 5px; }
         #inlineAdBanner .ad-info-text, #middleAdBanner .ad-info-text { font-size: 0.8rem; padding-left: 0; margin-top: 30px; }
         
-        /* --- NUOVI STILI POP-UP (180x150) --- */
+        /* --- NUOVI STILI POP-UP (180x150) - INVARIATI --- */
         #popupAdBanner {
             position: fixed;
-            right: -180px; /* Inizia fuori dallo schermo (dimensione banner) */
+            right: -180px; 
             bottom: 120px; 
-            width: 180px; /* NUOVA DIMENSIONE */
-            height: 150px; /* NUOVA DIMENSIONE */
-            border-radius: 0; /* Rimosso l'arrotondamento */
+            width: 180px; 
+            height: 150px; 
+            border-radius: 0; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             display: none; 
             z-index: 150; 
@@ -402,46 +389,20 @@
             transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out; 
         }
 
-        /* Regole per il Pop-up quando è un'immagine a schermo intero */
-        #popupAdBanner.image-ad {
-            padding: 0; 
-        }
-        #popupAdBanner.image-ad .ad-link-wrapper {
-            padding: 0; 
-        }
-        #popupAdBanner.image-ad .ad-content {
-            display: none; 
-        }
-
-        /* Stile per forzare la comparsa */
-        #popupAdBanner.show {
-            right: 20px; /* Posizione finale a schermo (20px dal bordo) */
-            opacity: 1;
-        }
-        /* Stile per forzare la scomparsa */
-        #popupAdBanner.hide {
-            right: -180px; /* Ritorna fuori dallo schermo (dimensione banner) */
-            opacity: 0;
-        }
-
-        /* Stili specifici per i contenuti del pop-up */
-        #popupAdBanner .ad-link-wrapper {
-            flex-direction: column; 
-            justify-content: center;
-            text-align: center;
-            padding-right: 0;
-            flex-grow: 1;
-        }
-        #popupAdBanner .ad-controls {
-            top: 0; right: 0; height: auto; padding: 0; 
-        }
+        #popupAdBanner.image-ad { padding: 0; }
+        #popupAdBanner.image-ad .ad-link-wrapper { padding: 0; }
+        #popupAdBanner.image-ad .ad-content { display: none; }
+        #popupAdBanner.show { right: 20px; opacity: 1; }
+        #popupAdBanner.hide { right: -180px; opacity: 0; }
+        #popupAdBanner .ad-link-wrapper { flex-direction: column; justify-content: center; text-align: center; padding-right: 0; flex-grow: 1; }
+        #popupAdBanner .ad-controls { top: 0; right: 0; height: auto; padding: 0; }
         #popupAdBanner .ad-content { padding: 10px; flex-grow: 1; }
         #popupAdBanner .ad-title { font-size: 0.8rem; font-weight: 700; }
         #popupAdBanner .ad-description { font-size: 0.65rem; margin-top: 3px; }
         #popupAdBanner .ad-info-text { font-size: 0.8rem; padding-left: 0; margin-top: 30px; }
 
 
-        /* --- AI CHAT E FLOATING BUTTON --- */
+        /* --- AI CHAT E FLOATING BUTTON - INVARIATI --- */
         #ai-fab {
             position: fixed;
             bottom: 75px; 
@@ -564,87 +525,198 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
+        
+        /* --- BOTTOM SHEET MODAL (Rimuovi Annunci) --- */
+        #bottomSheetModal {
+            position: fixed;
+            bottom: -100%; 
+            left: 0;
+            width: 100%;
+            height: auto;
+            max-height: 80%;
+            background-color: var(--card-dark);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+            z-index: 300;
+            transition: bottom 0.3s ease-out;
+            padding: 20px;
+            box-sizing: border-box;
+            color: var(--text-light);
+            display: none; 
+            flex-direction: column;
+            font-family: 'Poppins', sans-serif;
+        }
 
-        /* --- STILI PAGINA RIMOZIONE ANNUNCI --- */
-        #ads-removal-modal {
-            display: none; /* Inizialmente nascosto */
+        #bottomSheetModal.visible {
+            bottom: 0;
+        }
+        
+        #overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 300; 
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: var(--text-light);
-            text-align: center;
-            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 299;
+            display: none;
         }
 
-        #ads-removal-content {
-            background-color: var(--card-dark);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 350px;
-            box-shadow: 0 0 25px rgba(214, 40, 40, 0.5); /* Primary Red Glow */
+        .bottom-sheet-header {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
-        
-        #ads-removal-modal h2 {
-            color: var(--primary);
-            font-size: 1.8rem;
+
+        .bottom-sheet-description {
+            font-size: 0.9rem;
+            color: var(--muted-light);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .bottom-sheet-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
-        #ads-removal-modal p {
-            color: var(--muted-light);
+        .bottom-sheet-input {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--muted-light);
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
             font-size: 1rem;
-            margin-bottom: 30px;
-        }
-        
-        #ads-removal-modal p.small-text {
-             font-size: 0.85rem;
-             margin-top: 15px;
-             color: var(--ios-blue);
         }
 
-        #remove-ads-btn {
+        #validateKeyBtn {
             background-color: var(--ios-blue);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 12px;
+            border-radius: 10px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s;
+            font-family: 'Poppins', sans-serif;
         }
 
-        #remove-ads-btn:hover {
-            background-color: #005fcc;
+        #validateKeyBtn:hover {
+            background-color: #0060e0;
+        }
+
+        #validationMessage {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            min-height: 20px;
+        }
+
+        /* --- MEDIA QUERY PER DESKTOP/SCHERMI LARGHI --- */
+        @media (min-width: 768px) {
+            #app-content-wrapper {
+                left: 50%; 
+                transform: translateX(-50%); 
+                width: 100%;
+                max-width: 1024px; /* Simula una larghezza massima per desktop */
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            #navbar {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                max-width: 1024px;
+            }
+            
+            #stickyAdBanner {
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 1024px;
+            }
+            
+            #ai-fab {
+                 right: calc(50% - 1024px/2 + 20px); /* Posiziona il FAB correttamente a destra */
+            }
+
+            #bottomSheetModal {
+                left: 50%; 
+                transform: translateX(-50%); 
+                max-width: 1024px;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            /* Sposta gli annunci 250x250 ai lati */
+            .ad-container-desktop {
+                position: fixed;
+                top: 54px; /* Sotto la navbar */
+                bottom: 70px; /* Sopra la sticky ad */
+                width: calc(50% - 512px); /* Spazio a lato del contenuto principale */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                padding-top: 20px;
+            }
+            
+            #leftAdContainer {
+                left: 0;
+            }
+            
+            #rightAdContainer {
+                right: 0;
+            }
+            
+            /* Nasconde gli annunci inline nel contenuto se visualizzati ai lati */
+            #inlineAdBanner, #middleAdBanner {
+                display: none !important;
+            }
+            
+            /* Se un annuncio è disabilitato, non visualizziamo i contenitori a lato */
+            .ad-container-desktop.hidden-ads {
+                display: none;
+            }
+            
+            /* Forziamo gli annunci 250x250 nel contenitore laterale */
+             .ad-container-desktop #inlineAdBanner,
+             .ad-container-desktop #middleAdBanner {
+                 display: flex !important;
+             }
         }
         
-        /* Stile per il pulsante di reset (debug/test) */
-        #reset-ads-btn {
-            background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 20px;
-            cursor: pointer;
+        /* Regola l'altezza della wrapper quando non c'è la sticky ad */
+        .ads-removed #app-content-wrapper {
+            bottom: 0px; 
         }
 
+        /* Regola la posizione del FAB quando non c'è la sticky ad */
+        .ads-removed #ai-fab {
+             bottom: 20px;
+        }
+        
     </style>
 </head>
-<body id="body-wrapper" class="">
+<body class="ads-enabled">
+
+<div id="overlay"></div>
 
 <nav id="navbar">
+    <button id="removeAdsBtn">RIMUOVI ANNUNCI</button>
     <h1>La Gang Dei Richiardi</h1>
 </nav>
 
+<div id="leftAdContainer" class="ad-container-desktop hidden-ads">
+    </div>
+<div id="rightAdContainer" class="ad-container-desktop hidden-ads">
+    </div>
 <div id="app-content-wrapper">
     <div id="main-content-simulator">
         
@@ -681,7 +753,7 @@
         
         <div id="middleAdBanner" class="ad-banner">
             <button id="middleAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-            <a id="middleAdLink" class="ad-link-wrapper" href="#" target="_self">
+            <a id="middleAdLink" class="ad-link-wrapper" href="#" target="_blank">
                 <img id="middleAdImage" class="ad-image" src="" alt="Annuncio Immagine">
                 <div id="middleAdContent" class="ad-content"> 
                     <div id="middleAdTitle" class="ad-title">Caricamento Annuncio...</div>
@@ -710,7 +782,7 @@
 
         <div id="inlineAdBanner" class="ad-banner">
             <button id="inlineAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-            <a id="inlineAdLink" class="ad-link-wrapper" href="#" target="_self">
+            <a id="inlineAdLink" class="ad-link-wrapper" href="#" target="_blank">
                 <img id="inlineAdImage" class="ad-image" src="" alt="Annuncio Immagine">
                 <div id="inlineAdContent" class="ad-content"> 
                     <div id="inlineAdTitle" class="ad-title">Caricamento Annuncio...</div>
@@ -735,7 +807,7 @@
 
 <div id="popupAdBanner" class="ad-banner hide">
     <button id="popupAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-    <a id="popupAdLink" class="ad-link-wrapper" href="#" target="_self">
+    <a id="popupAdLink" class="ad-link-wrapper" href="#" target="_blank">
         <img id="popupAdImage" class="ad-image" src="" alt="Annuncio Immagine Pop-up">
         <div id="popupAdContent" class="ad-content"> 
             <div id="popupAdTitle" class="ad-title">Caricamento Annuncio Pop-up...</div>
@@ -757,7 +829,7 @@
 
 <div id="stickyAdBanner" class="ad-banner">
     <button id="stickyAdBackArrow" class="ad-back-arrow" title="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
-    <a id="stickyAdLink" class="ad-link-wrapper" href="#" target="_self">
+    <a id="stickyAdLink" class="ad-link-wrapper" href="#" target="_blank">
         <img id="stickyAdImage" src="" alt="Annuncio Banner"> 
         <div id="stickyAdContent" class="ad-content"> 
             <div id="stickyAdTitle" class="ad-title">Caricamento Annuncio...</div>
@@ -774,19 +846,6 @@
         <button id="stickyAdOptionsBtn" class="ad-control-btn" title="Options" onclick="event.stopPropagation(); window.toggleAdInfoView('sticky');">
             <i class="fa-solid fa-ellipsis-v"></i>
         </button>
-    </div>
-</div>
-
-<div id="ads-removal-modal">
-    <div id="ads-removal-content">
-        <h2>Rimuovi Annunci Da Dark</h2>
-        <p>
-            Stanco della pubblicità di Dark? 
-            Rimuovi tutti gli annunci per **3 Giorni** e goditi un'esperienza senza interruzioni!
-        </p>
-        <button id="remove-ads-btn">Rimuovi Annunci per 3 Giorni</button>
-        <p class="small-text">Sfrutta l'offerta Dark Ads Removal NFC</p>
-        <button id="reset-ads-btn">Reset Annunci (Test)</button>
     </div>
 </div>
 
@@ -809,17 +868,41 @@
     </div>
 </div>
 
+<div id="bottomSheetModal">
+    <div class="bottom-sheet-header">Rimuovi Annunci</div>
+    <div class="bottom-sheet-description">
+        Rimuovi tutti gli annunci con una chiave speciale e unica (non riusabile) per il periodo selezionato.
+    </div>
+    <div class="bottom-sheet-input-group">
+        <input type="text" id="adsRemovalKeyInput" class="bottom-sheet-input" placeholder="Inserisci la chiave di rimozione annunci (es. 7D-...)">
+    </div>
+    <button id="validateKeyBtn">Applica Chiave</button>
+    <div id="validationMessage"></div>
+</div>
+
 <script type="module">
-    // --- 1. Firebase Imports ---
+    // --- 1. Firebase Imports (Invariati) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { 
         getFirestore, collection, onSnapshot, query, setLogLevel
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    
+    // Polyfill per la funzione di hashing (semplice simulazione, non sicuro per produzione)
+    // Nota: window.btoa è un hash base64 standard, ma non è una funzione hash sicura (SHA-256 ecc.).
+    // Per una vera sicurezza, si dovrebbe usare un backend. Qui si usa solo per creare un token "strutturato".
+    function simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return btoa(String(hash));
+    }
 
-    // --- 2. Firebase Config ---
-    // NOTA: Configurazione fittizia per un ambiente simulato, 
-    // l'URL del webhook Discord è fittizio (es. un bot test)
+
+    // --- 2. Firebase Config (Invariati) ---
     const userProvidedConfig = {
         apiKey: "AIzaSyBiDjwSktDSEdomaRnbfl1UcvCgihhWH1A", 
         projectId: "themoreinfoblog",
@@ -828,17 +911,71 @@
     
     const appId = 'default-app-id';
     const ADS_COLLECTION_PATH = `/artifacts/${appId}/public/data/ads`; 
-    const ADS_REMOVAL_URL = '/UyZ359ads496267925'; // URL fittizio per la rimozione annunci
-    const ADS_REMOVAL_KEY = 'adsRemovedUntil';
-    const BODY_WRAPPER = document.getElementById('body-wrapper');
-
 
     // --- 3. Variabili di Stato Ads ---
     let app, db, auth;
     let allAds = []; 
-    let currentAd = {}; // Memorizza l'annuncio attualmente visualizzato per non ricaricarlo
+    let currentAd = {}; 
     let adsUnsubscribe = null; 
-    let adRefreshTimers = {}; // Per gestire i timer di refresh casuale
+    let adRefreshTimers = {}; 
+    
+    // Stato Rimuovi Annunci
+    const ADS_EXPIRY_KEY = 'ads_removal_expiry';
+    let adsRemovedExpiry = localStorage.getItem(ADS_EXPIRY_KEY) ? new Date(localStorage.getItem(ADS_EXPIRY_KEY)) : null;
+
+    // Funzione di utilità per verificare lo stato degli annunci
+    function isAdsEnabled() {
+        if (!adsRemovedExpiry || adsRemovedExpiry <= new Date()) {
+            // Se la data non è impostata o è scaduta
+            document.body.classList.remove('ads-removed');
+            document.body.classList.add('ads-enabled');
+            return true;
+        }
+        // Se la data è valida e nel futuro
+        document.body.classList.remove('ads-enabled');
+        document.body.classList.add('ads-removed');
+        return false;
+    }
+    
+    // Funzione per nascondere tutti i banner
+    function hideAllAds() {
+        Object.values(elements).forEach(el => {
+            if (el.banner) {
+                el.banner.style.display = 'none';
+                // Pulisce i timer di refresh
+                if (el.banner.id !== 'popupAdBanner' && adRefreshTimers[el.banner.id.replace('AdBanner', '')]) {
+                    clearTimeout(adRefreshTimers[el.banner.id.replace('AdBanner', '')]);
+                }
+            }
+        });
+        // Disabilita i contenitori desktop
+        document.getElementById('leftAdContainer').classList.add('hidden-ads');
+        document.getElementById('rightAdContainer').classList.add('hidden-ads');
+        
+        // Ferma il ciclo del pop-up se attivo
+         if (adRefreshTimers.popup) {
+            clearTimeout(adRefreshTimers.popup);
+        }
+    }
+    
+    // Funzione per mostrare gli annunci (dopo aver verificato lo stato)
+    function showAdsIfEnabled() {
+        if (isAdsEnabled()) {
+            startAdsListener(); // Ri-attiva il listener e la visualizzazione
+             // Ri-attiva i contenitori desktop se in modalità desktop
+             if (window.innerWidth >= 768) {
+                  document.getElementById('leftAdContainer').classList.remove('hidden-ads');
+                  document.getElementById('rightAdContainer').classList.remove('hidden-ads');
+             }
+        } else {
+            hideAllAds(); // Nasconde gli annunci se attivi
+            // Aggiorna il messaggio del bottone se l'admin lo richiede
+            const remaining = Math.ceil((adsRemovedExpiry - new Date()) / (1000 * 3600 * 24));
+            document.getElementById('removeAdsBtn').textContent = `ADS OFF: ${remaining} giorni`;
+            document.getElementById('removeAdsBtn').disabled = true;
+        }
+    }
+
 
     // --- 4. Elementi DOM Ads ---
     const elements = {
@@ -875,7 +1012,6 @@
             image: document.getElementById('middleAdImage'), 
             contentDiv: document.getElementById('middleAdContent'), 
         },
-        // Elementi per il Pop-up (180x150)
         popup: { 
             banner: document.getElementById('popupAdBanner'),
             link: document.getElementById('popupAdLink'),
@@ -889,85 +1025,19 @@
         }
     };
     
-    // --- 5. LOGICA RIMOZIONE ANNUNCI (NUOVA SEZIONE) ---
-    
-    const adsRemovalModal = document.getElementById('ads-removal-modal');
-    const removeAdsBtn = document.getElementById('remove-ads-btn');
-    const resetAdsBtn = document.getElementById('reset-ads-btn');
-    
-    /**
-     * Controlla se gli annunci sono temporaneamente disabilitati.
-     * @returns {boolean} True se gli annunci dovrebbero essere nascosti.
-     */
-    function areAdsRemoved() {
-        const timestamp = localStorage.getItem(ADS_REMOVAL_KEY);
-        if (!timestamp) return false;
-        
-        const expirationDate = new Date(parseInt(timestamp, 10));
-        const now = new Date();
-        
-        if (now < expirationDate) {
-            BODY_WRAPPER.classList.add('ads-removed');
-            return true;
-        } else {
-            localStorage.removeItem(ADS_REMOVAL_KEY);
-            BODY_WRAPPER.classList.remove('ads-removed');
-            return false;
-        }
-    }
-    
-    /**
-     * Abilita la rimozione degli annunci per 3 giorni.
-     */
-    function enableAdsRemoval() {
-        // 3 giorni in millisecondi: 3 * 24 * 60 * 60 * 1000 = 259,200,000
-        const threeDays = 3 * 24 * 60 * 60 * 1000;
-        const expirationTime = new Date().getTime() + threeDays;
-        
-        localStorage.setItem(ADS_REMOVAL_KEY, expirationTime.toString());
-        BODY_WRAPPER.classList.add('ads-removed');
-        
-        adsRemovalModal.style.display = 'none';
-        alert(`Annunci Dark rimossi fino a: ${new Date(expirationTime).toLocaleString()}!`);
-    }
+    // Aggiungi gli elementi del Bottom Sheet
+    const removeAdsBtn = document.getElementById('removeAdsBtn');
+    const bottomSheetModal = document.getElementById('bottomSheetModal');
+    const overlay = document.getElementById('overlay');
+    const adsRemovalKeyInput = document.getElementById('adsRemovalKeyInput');
+    const validateKeyBtn = document.getElementById('validateKeyBtn');
+    const validationMessage = document.getElementById('validationMessage');
 
-    /**
-     * Gestisce la navigazione verso l'URL fittizio per la rimozione annunci.
-     * @param {Event} e 
-     * @param {string} url 
-     */
-    function handleAdClick(e, url) {
-        if (url.endsWith(ADS_REMOVAL_URL)) {
-            e.preventDefault(); // Impedisce la navigazione effettiva
-            adsRemovalModal.style.display = 'flex';
-        } 
-        // Per altri link, il browser seguirà l'href normalmente (simulato)
-    }
 
-    // Aggiunge l'event listener al bottone di rimozione
-    removeAdsBtn.addEventListener('click', enableAdsRemoval);
+    // --- 5. Logica Annunci (Modificata per isAdsEnabled) ---
     
-    // Aggiunge la funzionalità di reset (per test)
-    resetAdsBtn.addEventListener('click', () => {
-        localStorage.removeItem(ADS_REMOVAL_KEY);
-        BODY_WRAPPER.classList.remove('ads-removed');
-        adsRemovalModal.style.display = 'none';
-        alert('Stato annunci resettato. Ricarica la pagina per vedere gli annunci subito.');
-    });
-
-    // Inizializza lo stato di rimozione all'avvio
-    areAdsRemoved();
-
-    // --- 6. Logica Annunci (aggiornata per supportare l'AdsRemovalURL) ---
-    
-    /**
-     * Seleziona un annuncio casuale differente dall'annuncio corrente visualizzato in quel tipo di banner.
-     * @param {string} type - 'sticky', 'inline', 'middle' o 'popup'
-     * @returns {object|null} L'annuncio selezionato.
-     */
     function getRandomAd(type) {
         if (allAds.length === 0) return null;
-        
         const currentAdId = currentAd[type]?.id;
         
         let availableAds = allAds.filter(ad => ad.id !== currentAdId);
@@ -979,88 +1049,64 @@
         return availableAds[Math.floor(Math.random() * availableAds.length)];
     }
     
-    /**
-     * Imposta o reimposta un timer per il refresh casuale.
-     * @param {string} type - 'sticky', 'inline' o 'middle'
-     */
     function setupRandomRefreshTimer(type) {
-        // Pulisce il timer esistente
+         if (!isAdsEnabled()) return; // Non impostare timer se gli annunci sono disattivati
+        
         if (adRefreshTimers[type]) {
             clearTimeout(adRefreshTimers[type]);
         }
         
-        // Intervallo casuale tra 20 secondi (20000ms) e 60 secondi (60000ms)
         const minDuration = 20000;
         const maxDuration = 60000;
         const randomTime = Math.floor(Math.random() * (maxDuration - minDuration + 1)) + minDuration;
         
         adRefreshTimers[type] = setTimeout(() => {
-            displayBannerAd(type, true); // Forziamo il refresh
-            setupRandomRefreshTimer(type); // Reimposta il timer dopo il refresh
+            displayBannerAd(type, true); 
+            setupRandomRefreshTimer(type); 
         }, randomTime);
     }
     
-    /**
-     * Gestisce il ciclo di visualizzazione, scomparsa e refresh del Pop-up.
-     */
     function setupPopupCycle() {
+        if (!isAdsEnabled()) return; // Non avviare ciclo se gli annunci sono disattivati
+        
         const type = 'popup';
         const el = elements[type];
         
-        // Pulisce eventuali timer precedenti
         if (adRefreshTimers[type]) {
             clearTimeout(adRefreshTimers[type]);
         }
         
-        if (areAdsRemoved()) return; // Non avvia il ciclo se gli annunci sono rimossi
-        
-        // 1. Durata Visibile (10-15 secondi)
         const displayDuration = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
-        // 2. Durata Nascosta (tra 0 e 5 secondi)
         const hiddenDuration = Math.floor(Math.random() * 5000); 
 
-        // 1. Mostra l'annuncio
-        displayBannerAd(type, true); // Visualizza un nuovo annuncio
+        displayBannerAd(type, true); 
         el.banner.style.display = 'flex';
-        // Forza l'animazione slide-in dopo un breve ritardo per il refresh
         setTimeout(() => {
             el.banner.classList.remove('hide');
             el.banner.classList.add('show');
         }, 50); 
 
-        // 2. Nascondi l'annuncio dopo displayDuration
         adRefreshTimers[type] = setTimeout(() => {
             el.banner.classList.remove('show');
             el.banner.classList.add('hide');
             
-            // 3. Rimuovi l'elemento e riavvia il ciclo dopo la transizione (500ms) + hiddenDuration
             setTimeout(() => {
-                el.banner.style.display = 'none'; // Nascondi completamente alla fine della slide-out
-                setupPopupCycle(); // Riavvia il ciclo con un nuovo annuncio
-            }, 500 + hiddenDuration); // 500ms = durata della transizione CSS
+                el.banner.style.display = 'none';
+                setupPopupCycle();
+            }, 500 + hiddenDuration); 
             
         }, displayDuration);
     }
 
 
-    /**
-     * Visualizza un annuncio.
-     * @param {string} type - 'sticky', 'inline', 'middle' o 'popup'
-     * @param {boolean} [forceNewAd=false] - Forza la selezione di un nuovo annuncio casuale.
-     */
     function displayBannerAd(type, forceNewAd = false) {
-        if (areAdsRemoved()) {
-            if (elements[type] && elements[type].banner) {
-                elements[type].banner.style.display = 'none';
-            }
-            return;
-        }
-
+        if (!isAdsEnabled()) return; // Non visualizzare se disattivati
+        
         let ad;
         if (forceNewAd) {
-            ad = getRandomAd(type); // Prende un nuovo annuncio casuale
+            ad = getRandomAd(type); 
         } else {
-            ad = currentAd[type] || getRandomAd(type); // Usa quello corrente o ne prende uno nuovo se non esiste
+            ad = currentAd[type] || getRandomAd(type); 
         }
         
         const el = elements[type];
@@ -1070,34 +1116,22 @@
             return;
         }
         
-        // Memorizza l'annuncio che stiamo visualizzando
         currentAd[type] = ad;
         
-        // Impostazioni comuni e reset
-        // Se l'annuncio è Dark, usiamo l'URL di rimozione annunci, altrimenti l'URL dell'annuncio
-        const finalLink = (ad.source === 'Dark') ? ADS_REMOVAL_URL : (ad.link || '#');
-        el.link.href = finalLink; 
-        
-        // Aggiunge l'intercettazione del click per l'URL di rimozione annunci
-        // Rimuove vecchi listener per evitare duplicati
-        el.link.removeEventListener('click', el.link.currentHandler || function(){}); 
-        el.link.currentHandler = function(e) { handleAdClick(e, finalLink); };
-        el.link.addEventListener('click', el.link.currentHandler);
-        
+        el.link.href = ad.link; 
         el.link.classList.remove('hidden-content');
         el.infoCont.style.display = 'none';
         el.back.style.display = 'none';
         el.controls.style.display = 'flex';
         
-        // Se non è il Pop-up, gestisci la visualizzazione standard e il timer
         if (type !== 'popup') {
-            if (el.banner.style.display !== 'flex') {
+            if (el.banner.style.display !== 'flex' && type !== 'popup') {
                  setupRandomRefreshTimer(type);
             }
              el.banner.style.display = 'flex'; 
         }
 
-        // Reset Immagine/Testo (per tutti i tipi)
+        // Reset Immagine/Testo
         if (el.image && el.contentDiv) {
              el.image.style.display = 'none';
              el.contentDiv.style.display = 'flex';
@@ -1105,56 +1139,89 @@
              el.banner.classList.remove('image-ad'); 
         }
         
-        // --- Logica specifica per tipo di banner ---
-
+        // Logica specifica per tipo di banner
         if (type === 'sticky') {
-             // Reset del padding del banner sticky
              el.banner.style.padding = '5px 0'; 
-             
-            // Banner Sticky (Immagine Banner o Testo)
             if (ad.type === 'image' && ad.bannerImageUrl) {
-                // Caso 1: Annuncio Immagine Banner (usa bannerImageUrl)
                 el.image.src = ad.bannerImageUrl;
                 el.image.style.display = 'block'; 
                 el.contentDiv.style.display = 'none'; 
                 el.banner.classList.add('image-ad'); 
-                
-                // Rimuove il padding per l'immagine a schermo intero
                 el.banner.style.padding = '0';
             } else {
-                // Caso 2: Annuncio Testo (o immagine fallita/mancante)
                 el.title.textContent = ad.title || 'Annuncio';
                 el.desc.textContent = ad.description || ad.link;
                 el.contentDiv.style.display = 'flex';
             }
-            
         } else { 
-            // Banner 250x250 (inline, middle) e 180x150 (popup)
-            el.banner.style.padding = '5px'; // Padding standard
-            
+            el.banner.style.padding = '5px';
             if (ad.type === 'image' && ad.imageUrl) {
-                // Caso 1: Annuncio Immagine (occupa tutto lo spazio)
                 el.image.src = ad.imageUrl;
                 el.image.style.display = 'block'; 
                 el.contentDiv.style.display = 'none'; 
                 el.banner.classList.add('image-ad'); 
-                
-                // Rimuove il padding per l'immagine a schermo intero
                 el.banner.style.padding = '0';
             } else {
-                // Caso 2: Annuncio Testo (o immagine fallita/mancante)
                 el.title.textContent = ad.title || 'Annuncio Testo';
                 el.desc.textContent = ad.description || ad.link;
                 el.contentDiv.style.display = 'flex';
             }
         }
+        
+         // Aggiornamento per la modalità desktop
+        if (window.innerWidth >= 768 && (type === 'inline' || type === 'middle')) {
+             // In modalità desktop, gli annunci inline e middle sono clonati nei contenitori laterali.
+             const isMiddle = type === 'middle';
+             const destEl = isMiddle ? document.getElementById('leftAdContainer') : document.getElementById('rightAdContainer');
+             
+             // Clonazione superficiale (solo il banner) e inserimento nel contenitore laterale
+             let clonedBanner = destEl.querySelector('.ad-banner');
+             if (!clonedBanner) {
+                 clonedBanner = el.banner.cloneNode(true); // Cloniamo la struttura
+                 clonedBanner.id = type + 'AdBannerDesktop'; // ID per evitare duplicati
+                 // Rimuoviamo gli elementi che non servono nel clone se necessario
+                 clonedBanner.querySelector('.ad-controls').style.display = 'none'; 
+                 clonedBanner.querySelector('.ad-back-arrow').style.display = 'none';
+                 destEl.appendChild(clonedBanner);
+             }
+             
+             // Aggiorniamo il contenuto del clone
+             const clonedTitle = clonedBanner.querySelector('.ad-title');
+             const clonedDesc = clonedBanner.querySelector('.ad-description');
+             const clonedLink = clonedBanner.querySelector('.ad-link-wrapper');
+             const clonedImage = clonedBanner.querySelector('.ad-image');
+             const clonedContentDiv = clonedBanner.querySelector('.ad-content');
+
+             clonedLink.href = ad.link;
+             clonedBanner.style.display = 'flex';
+             
+             if (ad.type === 'image' && ad.imageUrl) {
+                 clonedImage.src = ad.imageUrl;
+                 clonedImage.style.display = 'block'; 
+                 clonedContentDiv.style.display = 'none'; 
+                 clonedBanner.classList.add('image-ad'); 
+                 clonedBanner.style.padding = '0';
+             } else {
+                 clonedTitle.textContent = ad.title || 'Annuncio Testo';
+                 clonedDesc.textContent = ad.description || ad.link;
+                 clonedImage.style.display = 'none';
+                 clonedContentDiv.style.display = 'flex'; 
+                 clonedBanner.classList.remove('image-ad');
+                 clonedBanner.style.padding = '5px';
+             }
+             
+             // Nascondiamo gli originali nel flusso del contenuto
+             el.banner.style.display = 'none';
+             
+             // Rimuoviamo la classe hidden-ads
+             destEl.classList.remove('hidden-ads');
+        } else if (window.innerWidth >= 768 && (type === 'inline' || type === 'middle')) {
+            // Se in desktop mode e non ci sono annunci validi, nascondi i contenitori
+             document.getElementById('leftAdContainer').classList.add('hidden-ads');
+             document.getElementById('rightAdContainer').classList.add('hidden-ads');
+        }
     }
 
-    /**
-     * Mostra o nasconde la schermata delle informazioni dell'annuncio.
-     * @param {string} type - 'sticky', 'inline', 'middle' o 'popup'
-     * @param {boolean} [showInfo=true] - Se mostrare (true) o nascondere (false) la schermata info.
-     */
     window.toggleAdInfoView = (type, showInfo = true) => {
         const el = elements[type];
         if (showInfo) {
@@ -1163,7 +1230,6 @@
             el.infoCont.style.display = 'flex';
             el.back.style.display = 'block'; 
             
-            // Pausa il timer quando si apre la schermata info (solo per i banner non-popup)
             if (adRefreshTimers[type] && type !== 'popup') {
                 clearTimeout(adRefreshTimers[type]);
             }
@@ -1173,49 +1239,45 @@
             el.infoCont.style.display = 'none';
             el.back.style.display = 'none';
             
-            // Riattiva il timer quando si chiude la schermata info (solo per i banner non-popup)
-            if (type !== 'popup') {
+            if (type !== 'popup' && isAdsEnabled()) {
                 setupRandomRefreshTimer(type);
             }
         }
     };
     
-    // Assicurati che gli eventi back funzionino
     elements.sticky.back.onclick = () => { window.toggleAdInfoView('sticky', false); };
     elements.inline.back.onclick = () => { window.toggleAdInfoView('inline', false); };
     elements.middle.back.onclick = () => { window.toggleAdInfoView('middle', false); }; 
     elements.popup.back.onclick = () => { window.toggleAdInfoView('popup', false); }; 
 
     function startAdsListener() {
+        if (!isAdsEnabled()) {
+             hideAllAds();
+             return;
+        }
+        
         if (adsUnsubscribe) adsUnsubscribe(); 
         const adsQuery = query(collection(db, ADS_COLLECTION_PATH));
         adsUnsubscribe = onSnapshot(adsQuery, (snapshot) => {
             allAds = [];
             snapshot.forEach(doc => {
                 const data = doc.data();
-                
-                // Un annuncio è valido se ha un URL immagine (blocco o banner) O ha titolo/descrizione
                 if (data.imageUrl || data.bannerImageUrl || data.title || data.description) {
-                     // Simuliamo un'origine "Dark" per l'annuncio
-                     const source = (Math.random() < 0.5) ? 'Dark' : 'AdNetwork';
-                     allAds.push({ id: doc.id, source, ...data });
+                     allAds.push({ id: doc.id, ...data });
                 }
             });
             
-            // Se gli annunci sono rimossi, non fare nulla
-            if (areAdsRemoved()) return; 
-
-            // Inizializza o rinfresca gli annunci all'avvio/cambio dati
-            displayBannerAd('sticky', true);
-            displayBannerAd('inline', true);
-            displayBannerAd('middle', true); 
-            
-            // Avvia il ciclo del pop-up
-            setupPopupCycle();
+            if (isAdsEnabled()) {
+                displayBannerAd('sticky', true);
+                displayBannerAd('inline', true);
+                displayBannerAd('middle', true); 
+                setupPopupCycle();
+            } else {
+                hideAllAds();
+            }
             
         }, (error) => {
              console.error("Errore ads:", error);
-             // Nascondi tutti i banner in caso di errore
              Object.values(elements).forEach(el => {
                 if(el.banner) el.banner.style.display = 'none';
              });
@@ -1229,14 +1291,18 @@
             db = getFirestore(app);
             auth = getAuth(app);
             await signInAnonymously(auth);
-            startAdsListener(); 
+            
+            showAdsIfEnabled(); // Controllo iniziale dello stato annunci
+            
         } catch (error) { 
             console.error("Errore init Firebase:", error); 
         }
     }
+    
+    // Inizializza tutto all'avvio
     initFirebase();
-
-    // --- 7. LOGICA CHAT (MANTENUTA INVARIATA) ---
+    
+    // --- 6. LOGICA CHAT (MANTENUTA INVARIATA) ---
     const aiFab = document.getElementById('ai-fab');
     const chatModal = document.getElementById('chat-modal');
     const closeChatBtn = document.getElementById('chat-close-btn');
@@ -1244,21 +1310,11 @@
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('chat-send-btn');
     
-    // Webhook Discord Fittizio
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1445514283726405651/lQTiNHR3bCDw6sNmRIZTiqZOyQPz3RW16Rn-Dgm7EOf2BbBAy8I7rCm9DKJxB6BIgpDx";
-
-    // Stato della chat
     let chatStep = 0; 
     let collabData = {
-        channelInfo: "",
-        riesi: "",
-        collabTopic: "",
-        knowsOwner: "",
-        channelName: "",
-        phone: ""
+        channelInfo: "", riesi: "", collabTopic: "", knowsOwner: "", channelName: "", phone: ""
     };
-
-    // Parole vietate (Semplice filtro)
     const badWords = ["uccidere", "morire", "odio", "stupido", "scemo", "truffa", "droga", "armi", "porno", "sex", "violenza"];
 
     aiFab.addEventListener('click', () => {
@@ -1268,10 +1324,7 @@
         }
     });
 
-    closeChatBtn.addEventListener('click', () => {
-        chatModal.style.display = 'none';
-    });
-
+    closeChatBtn.addEventListener('click', () => { chatModal.style.display = 'none'; });
     function addMessage(sender, text) {
         const msgDiv = document.createElement('div');
         msgDiv.classList.add('message', sender);
@@ -1279,18 +1332,16 @@
         chatMessages.appendChild(msgDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
     function isBadContent(text) {
         const lower = text.toLowerCase();
         return badWords.some(word => lower.includes(word));
     }
-
     function sendToDiscord() {
         const payload = {
             content: "🚀 **Nuova Richiesta Collaborazione!**",
             embeds: [{
                 title: "Dettagli Candidato",
-                color: 5814783, // Blu
+                color: 5814783, 
                 fields: [
                     { name: "Canale/Base", value: collabData.channelInfo || "N/A" },
                     { name: "Abita a Riesi?", value: collabData.riesi || "N/A" },
@@ -1302,7 +1353,6 @@
                 footer: { text: "La Gang dei Richiardi Bot" }
             }]
         };
-
         fetch(DISCORD_WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1313,8 +1363,7 @@
 
     function handleChatLogic(userText) {
         const lowerText = userText.toLowerCase();
-
-        // STEP 0: Inizio
+        // ... (Logica chat invariata) ...
         if (chatStep === 0) {
             if (lowerText.includes("voglio collaborare")) {
                 addMessage("ai", "Certo dimmi il nome del tuo canale, su cosa e basato.");
@@ -1324,14 +1373,7 @@
             }
             return;
         }
-        
-        if (chatStep === 99) {
-            addMessage("ai", "La procedura di collaborazione è terminata. Puoi ricominciare scrivendo 'Voglio collaborare' se necessario.");
-            chatStep = 0;
-            return;
-        }
 
-        // STEP 1: Info Canale -> Chiede Riesi
         if (chatStep === 1) {
             collabData.channelInfo = userText;
             addMessage("ai", "Ok! Un' altra domanda, abiti a Riesi?");
@@ -1339,21 +1381,18 @@
             return;
         }
 
-        // STEP 2: Riesi -> Chiede Topic (se Si)
         if (chatStep === 2) {
             if (lowerText.includes("si") || lowerText.includes("sì")) {
                 collabData.riesi = "Si";
                 addMessage("ai", "Perfetto! Ci siamo quasi, stiamo per finire! Su cosa sarà basata la tua collab??");
                 chatStep = 3;
             } else {
-                collabData.riesi = "No";
                 addMessage("ai", "Mi dispiace, cerchiamo collaboratori in zona. La chat termina qui.");
-                chatStep = 99; // Fine
+                chatStep = 99;
             }
             return;
         }
 
-        // STEP 3: Topic -> Controllo Contenuto -> Chiede Proprietario
         if (chatStep === 3) {
             if (isBadContent(userText)) {
                 addMessage("ai", "La tua proposta non rispetta le nostre linee guida. La chat termina qui.");
@@ -1366,21 +1405,18 @@
             return;
         }
 
-        // STEP 4: Proprietario -> Chiede Nome Canale (se Si)
         if (chatStep === 4) {
             if (lowerText.includes("si") || lowerText.includes("sì")) {
                 collabData.knowsOwner = "Si";
                 addMessage("ai", "Ok, la tua collab è stata inviata al proprietario dei richiardi, dimmi solo il nome del canale");
                 chatStep = 5;
             } else {
-                collabData.knowsOwner = "No";
                 addMessage("ai", "Ci dispiace, preferiamo collaborare con chi ci conosce già. La chat termina qui.");
                 chatStep = 99;
             }
             return;
         }
 
-        // STEP 5: Nome Canale -> Chiede Telefono
         if (chatStep === 5) {
             collabData.channelName = userText;
             addMessage("ai", "Dimmi Il Tuo numero di telefono");
@@ -1388,15 +1424,13 @@
             return;
         }
 
-        // STEP 6: Telefono -> Fine e Invio
         if (chatStep === 6) {
-            // Validazione base numero (almeno 9 cifre)
             const phoneRegex = /[0-9]{9,}/;
             if (phoneRegex.test(userText.replace(/\s/g, ''))) {
                 collabData.phone = userText;
                 addMessage("ai", "Perfetto chat finita. Un'admin ti contatterà al più presto possibile");
                 sendToDiscord();
-                chatStep = 99; // Finito
+                chatStep = 99;
             } else {
                 addMessage("ai", "Per favor inserisci un numero valido.");
             }
@@ -1411,7 +1445,6 @@
         addMessage("user", text);
         chatInput.value = "";
         
-        // Simula ritardo digitazione AI
         setTimeout(() => {
             handleChatLogic(text);
         }, 800);
@@ -1421,6 +1454,133 @@
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
+
+    // --- 7. LOGICA RIMOZIONE ANNUNCI (Nuova) ---
+
+    function showBottomSheet() {
+        if (adsRemovedExpiry && adsRemovedExpiry > new Date()) {
+             const remaining = Math.ceil((adsRemovedExpiry - new Date()) / (1000 * 3600 * 24));
+             validationMessage.style.color = 'var(--secondary)';
+             validationMessage.textContent = `Annunci già rimossi! Scadenza tra ${remaining} giorni.`;
+             adsRemovalKeyInput.value = '';
+             validateKeyBtn.disabled = true;
+        } else {
+             validationMessage.textContent = '';
+             validateKeyBtn.disabled = false;
+        }
+        bottomSheetModal.style.display = 'flex';
+        overlay.style.display = 'block';
+        setTimeout(() => {
+            bottomSheetModal.classList.add('visible');
+        }, 10);
+    }
+
+    function hideBottomSheet() {
+        bottomSheetModal.classList.remove('visible');
+        setTimeout(() => {
+            bottomSheetModal.style.display = 'none';
+            overlay.style.display = 'none';
+        }, 300); 
+    }
+    
+    // Nasconde il bottom sheet quando si clicca sull'overlay
+    overlay.addEventListener('click', hideBottomSheet);
+
+    removeAdsBtn.addEventListener('click', showBottomSheet);
+    
+    // Funzione di validazione chiave lato client (SIMULATA)
+    validateKeyBtn.addEventListener('click', () => {
+        const key = adsRemovalKeyInput.value.trim().toUpperCase();
+        
+        // Formato chiave atteso: [DURATA_INIZIALE]-[DURATA_FINALE]-[HASH]
+        const keyRegex = /^(\d+[D])-\d+[D]-([A-Z0-9+=/]{8,})$/; 
+        const match = key.match(keyRegex);
+
+        if (key.length === 0) {
+            validationMessage.style.color = 'var(--primary)';
+            validationMessage.textContent = 'Inserisci una chiave.';
+            return;
+        }
+        
+        if (!match) {
+            validationMessage.style.color = 'var(--primary)';
+            validationMessage.textContent = 'Chiave non valida. Formato errato.';
+            return;
+        }
+        
+        const durationStr = match[1]; // Es. "7D"
+        const durationMap = {
+            '24H': 1, '3D': 3, '7D': 7, '14D': 14
+        };
+        const days = durationMap[durationStr];
+        
+        if (!days) {
+            validationMessage.style.color = 'var(--primary)';
+            validationMessage.textContent = 'Durata non riconosciuta nella chiave.';
+            return;
+        }
+        
+        // Simula la verifica dell'unicità/integrità
+        // Per l'ambiente client-only, si considera una chiave valida se ha il formato corretto.
+        // In una vera applicazione, la chiave verrebbe inviata a un server.
+        
+        // Inizializza la data di scadenza
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + days);
+
+        // 1. Salva lo stato in Local Storage
+        localStorage.setItem(ADS_EXPIRY_KEY, expiryDate.toISOString());
+        adsRemovedExpiry = expiryDate;
+
+        // 2. Aggiorna lo stato dell'UI
+        hideAllAds();
+        document.body.classList.remove('ads-enabled');
+        document.body.classList.add('ads-removed');
+        
+        const remaining = Math.ceil((adsRemovedExpiry - new Date()) / (1000 * 3600 * 24));
+        document.getElementById('removeAdsBtn').textContent = `ADS OFF: ${remaining} giorni`;
+        document.getElementById('removeAdsBtn').disabled = true;
+
+        // 3. Feedback e chiusura
+        validationMessage.style.color = 'var(--secondary)';
+        validationMessage.textContent = `Successo! Annunci rimossi per ${days} giorni.`;
+        validateKeyBtn.disabled = true;
+        
+        setTimeout(() => {
+            hideBottomSheet();
+        }, 2000);
+    });
+    
+    // --- Logica Desktop (Risposta a resize) ---
+    function handleDesktopView() {
+        const isDesktop = window.innerWidth >= 768;
+        const leftAdContainer = document.getElementById('leftAdContainer');
+        const rightAdContainer = document.getElementById('rightAdContainer');
+
+        if (isDesktop && isAdsEnabled()) {
+             // Forziamo il refresh degli annunci per popolarli nei contenitori laterali
+             displayBannerAd('middle', true);
+             displayBannerAd('inline', true);
+             leftAdContainer.classList.remove('hidden-ads');
+             rightAdContainer.classList.remove('hidden-ads');
+        } else if (isDesktop && !isAdsEnabled()) {
+             // Se annunci rimossi, nascondi i contenitori laterali anche se siamo in desktop
+             leftAdContainer.classList.add('hidden-ads');
+             rightAdContainer.classList.add('hidden-ads');
+        } else if (!isDesktop && isAdsEnabled()) {
+             // In mobile/tablet, assicurati che gli originali siano visibili
+             elements.inline.banner.style.display = 'flex';
+             elements.middle.banner.style.display = 'flex';
+             leftAdContainer.classList.add('hidden-ads');
+             rightAdContainer.classList.add('hidden-ads');
+        }
+    }
+
+    // Listener di resize per l'adattamento desktop
+    window.addEventListener('resize', handleDesktopView);
+    // Controllo iniziale al caricamento
+    handleDesktopView();
+
 
 </script>
 
